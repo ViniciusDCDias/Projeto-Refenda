@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "REFENDA",
+    "slug": "refenda",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#333"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "14421fac-5835-4641-9686-a18b54133137"
+      }
+    }
+  }
+}

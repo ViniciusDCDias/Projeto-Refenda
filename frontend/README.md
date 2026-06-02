@@ -1,0 +1,4 @@
+[TEXTO]   **TEXTO**
+#TEXTO    *TEXTO*
+´TEXTO´  _TEXTO_
+~TEXTO~
