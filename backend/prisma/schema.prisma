@@ -1,13 +1,45 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model agendamentos {
+  data_agen      DateTime  @default(now()) @db.Timestamp(0)
+  atividade_agen Boolean?  @default(true)
+  id_user        Int
+  id_ref         Int
+  usuarios       usuarios  @relation(fields: [id_user], references: [id_user], onUpdate: Restrict, map: "agendamentos_ibfk_1")
+  cardapios      cardapios @relation(fields: [id_ref], references: [id_ref], onUpdate: Restrict, map: "agendamentos_ibfk_2")
+
+  @@id([id_user, id_ref])
+  @@index([id_ref], map: "id_ref")
+}
+
+model cardapios {
+  id_ref        Int            @id @default(autoincrement())
+  nome_ref      String         @db.VarChar(255)
+  descricao_ref String         @db.Text
+  atividade_ref Boolean?       @default(true)
+  data_ref      DateTime       @unique(map: "data_ref") @db.Date
+  agendamentos  agendamentos[]
+}
+
+model usuarios {
+  id_user      Int                @id @default(autoincrement())
+  nome_user    String             @db.VarChar(100)
+  email        String             @unique(map: "email") @db.VarChar(255)
+  senha        String             @db.VarChar(255)
+  tipo_user    usuarios_tipo_user
+  ra           String?            @unique(map: "ra") @db.VarChar(15)
+  agendamentos agendamentos[]
+}
+
+enum usuarios_tipo_user {
+  GESTOR
+  ALUNO
+  FUNCIONARIO
 }
