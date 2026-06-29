@@ -4,7 +4,7 @@ import { useFonts, ZenDots_400Regular } from '@expo-google-fonts/zen-dots';
 import { Inter_400Regular } from '@expo-google-fonts/inter';
 import * as SplashScreen from 'expo-splash-screen';
 
-export default function LoginAluno({navigation}){
+export default function LoginCozi({navigation}){
   let [fontsLoaded] = useFonts({
     ZenDots_400Regular,
     Inter_400Regular,
@@ -49,6 +49,9 @@ export default function LoginAluno({navigation}){
         const tipo = data.user.tipo
         if(tipo === "GESTOR"){
           navigation.replace("HomeAluno")
+        }else{
+          Alert.alert("Erro","Tente novamente, você pode estar tentando logar com a o tipo errado...")
+          navigation.replace("HomeScreen")
         }
   
       } catch (error) {
@@ -93,6 +96,7 @@ export default function LoginAluno({navigation}){
       placeholder="Digite sua senha"
       value={senha}
       onChangeText={setSenha}
+      secureTextEntry
       />
       <View style={styles.containerS}>
         <TouchableOpacity

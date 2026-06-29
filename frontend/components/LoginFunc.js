@@ -4,7 +4,7 @@ import { useFonts, ZenDots_400Regular } from '@expo-google-fonts/zen-dots';
 import { Inter_400Regular } from '@expo-google-fonts/inter';
 import * as SplashScreen from 'expo-splash-screen';
 
-export default function LoginAluno(){
+export default function LoginFunc({navigation}){
   let [fontsLoaded] = useFonts({
     ZenDots_400Regular,
     Inter_400Regular,
@@ -35,11 +35,13 @@ export default function LoginAluno(){
           Alert.alert("Erro", data.message);
           return;
         }
-        console.log(data);
-        Alert.alert(
-          "Sucesso",
-          `Bem-vindo ${data.user.nome}`
-        );
+        const tipo = data.user.tipo
+        if(tipo === "FUNCIONARIO"){
+          navigation.replace("HomeAluno")
+        }else{
+          Alert.alert("Erro","Tente novamente, você pode estar tentando logar com a o tipo errado...")
+          navigation.replace("HomeScreen")
+        }
       } catch (error) {
         console.log(error);
         Alert.alert(
@@ -76,6 +78,7 @@ export default function LoginAluno(){
       placeholder="Digite sua senha"
       value={senha}
       onChangeText={setSenha}
+      secureTextEntry
       />
       <View style={styles.containerS}>
         <TouchableOpacity
