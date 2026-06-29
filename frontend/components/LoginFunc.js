@@ -18,13 +18,46 @@ export default function LoginAluno(){
   const [email,setemail] = useState('')
   const [senha,setSenha] = useState('')
 
-  const EntradaValida = () => {
-    if(email == '' || senha == ''){
-      Alert.alert("Erro","Os campos Email e Senha devem ser preenchidos! ")
-    }else{
-      Alert.alert("Em desenvolvimento","As telas de login estão em desenvolvimento, ou seja, não conseguirá concluir o login")
+  const login = async () => {
+      try {
+        const response = await fetch("http://192.168.0.10:3000/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            identificador: email,
+            senha: senha
+          })
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          Alert.alert("Erro", data.message);
+          return;
+        }
+        console.log(data);
+        Alert.alert(
+          "Sucesso",
+          `Bem-vindo ${data.user.nome}`
+        );
+      } catch (error) {
+        console.log(error);
+        Alert.alert(
+          "Erro",
+          "Não foi possível conectar ao servidor."
+        );
+      }
     }
-  }
+    const EntradaValida = () => {
+      if (email === "" || senha === "") {
+        Alert.alert(
+          "Erro",
+          "Os campos RA e Senha devem ser preenchidos!"
+        );
+        return
+      }
+      login();
+    }
   return(
     <View style={styles.container}>
       <View style={styles.containerS}>
