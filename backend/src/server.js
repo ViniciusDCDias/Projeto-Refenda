@@ -1,7 +1,7 @@
-import app from 'app.js'
+import app from './app.js'
 
-const port = 300
+const port = 3000
 
-app.listen(port, () => {
+app.listen(port,"0.0.0.0", () => {
     console.log(`O servidor esta rodando na porta: ${port}`)
 })

@@ -1,5 +1,8 @@
 {
   "expo": {
+    "android": {
+      "usesCleartextTraffic": true
+    },
     "name": "REFENDA",
     "slug": "refenda",
     "splash": {
