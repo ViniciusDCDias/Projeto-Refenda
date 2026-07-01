@@ -40,18 +40,18 @@ async function main()
 //      }
 //     }
 //   )
-    const hashedNeymar = await bcrypt.hash("Dellareti",10)
-    const Vitor = await prisma.usuarios.create(
-    {
-     data: {
-        nome_user:"Vitor",
-        email:"neymar.dellareti@cps.sp.gov.br",
-        senha:hashedNeymar,
-        tipo_user:"GESTOR",
-        ra:"260230"
-     }
-    }
-  )
+//     const hashedNeymar = await bcrypt.hash("Dellareti",10)
+//     const Neymar = await prisma.usuarios.create(
+//     {
+//      data: {
+//         nome_user:"Neymar",
+//         email:"neymar.dellareti@cps.sp.gov.br",
+//         senha:hashedNeymar,
+//         tipo_user:"GESTOR",
+//         ra:null
+//      }
+//     }
+//   )
     const usuarios = await prisma.usuarios.findMany()
     console.log(usuarios)
 }

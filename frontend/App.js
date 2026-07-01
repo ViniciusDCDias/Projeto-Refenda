@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import HomeScreen from './components/HomeScreen';
-import LoginAluno from './components/LoginAluno';
-import LoginCozi from './components/LoginCozi';
-import LoginFunc from './components/LoginFunc';
+import HomeScreen from './src/components/HomeScreen';
+import LoginAluno from './src/components/LoginAluno';
+import LoginCozi from './src/components/LoginCozi';
+import LoginFunc from './src/components/LoginFunc';
+import {AuthProvider} from './src/context/AuthContext'
 
 import * as SplashScreen from 'expo-splash-screen';
 
@@ -53,35 +54,37 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer>
 
-      <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Home">
 
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{ headerShown: false }}
+          />
 
-        <Stack.Screen
-          name="LoginAluno"
-          component={LoginAluno}
-          options={{ title: 'Login do Aluno' }}
-        />
+          <Stack.Screen
+            name="LoginAluno"
+            component={LoginAluno}
+            options={{ title: 'Login do Aluno' }}
+          />
 
-         <Stack.Screen
-          name="LoginCozi"
-          component={LoginCozi}
-          options={{ title: 'Login da Gestão' }}
-        />
+          <Stack.Screen
+            name="LoginCozi"
+            component={LoginCozi}
+            options={{ title: 'Login da Gestão' }}
+          />
 
-         <Stack.Screen
-          name="LoginFunc"
-          component={LoginFunc}
-          options={{ title: 'Login do Funcionario' }}
-        />
-      </Stack.Navigator>
+          <Stack.Screen
+            name="LoginFunc"
+            component={LoginFunc}
+            options={{ title: 'Login do Funcionario' }}
+          />
+        </Stack.Navigator>
 
-    </NavigationContainer>
+      </NavigationContainer>
+    </AuthProvider>
   );
 }

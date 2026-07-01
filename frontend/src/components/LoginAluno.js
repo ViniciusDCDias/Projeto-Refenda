@@ -1,10 +1,13 @@
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useFonts, ZenDots_400Regular } from '@expo-google-fonts/zen-dots';
 import { Inter_400Regular } from '@expo-google-fonts/inter';
 import * as SplashScreen from 'expo-splash-screen';
+import { AuthContext } from '../context/AuthContext';
 
 export default function LoginAluno({navigation}) {
+
+  const { login } = useContext(AuthContext)
 
   let [fontsLoaded] = useFonts({
     ZenDots_400Regular,
@@ -20,7 +23,7 @@ export default function LoginAluno({navigation}) {
   const [ra, setRa] = useState("");
   const [senha, setSenha] = useState("");
 
-  const login = async () => {
+  const validacao = async () => {
 
     try {
 
@@ -47,10 +50,13 @@ export default function LoginAluno({navigation}) {
 
       const tipo = data.user.tipo
       if(tipo === "ALUNO"){
+
+        login(data.token,data.user)
         navigation.replace("HomeAluno")
+        
       }else{
         Alert.alert("Erro","Tente novamente, você pode estar tentando logar com a o tipo errado...")
-        navigation.replace("HomeScreen")
+        navigation.replace("Home")
       }
 
     } catch (error) {
@@ -92,7 +98,7 @@ export default function LoginAluno({navigation}) {
 
     }
 
-    login();
+    validacao();
 
   }
 

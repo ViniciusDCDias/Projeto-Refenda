@@ -1,10 +1,14 @@
 import { StyleSheet, Text, View, TouchableOpacity, TextInput,Alert } from 'react-native';
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,useContext } from 'react';
 import { useFonts, ZenDots_400Regular } from '@expo-google-fonts/zen-dots';
 import { Inter_400Regular } from '@expo-google-fonts/inter';
 import * as SplashScreen from 'expo-splash-screen';
+import { AuthContext } from '../context/AuthContext';
 
-export default function LoginFunc({navigation}){
+export default function LoginCozi({navigation}){
+
+  const {login} = useContext(AuthContext)
+
   let [fontsLoaded] = useFonts({
     ZenDots_400Regular,
     Inter_400Regular,
@@ -18,52 +22,73 @@ export default function LoginFunc({navigation}){
   const [email,setemail] = useState('')
   const [senha,setSenha] = useState('')
 
-  const login = async () => {
+  const autenticacao = async () => {
+  
       try {
-        const response = await fetch("http://192.168.0.10:3000/auth/login", {
+        console.log("ANTES DO FETCH");
+  
+        const response = await fetch("http://192.168.0.230:3000/auth/login", {
           method: "POST",
+  
           headers: {
             "Content-Type": "application/json"
           },
+  
           body: JSON.stringify({
             identificador: email,
             senha: senha
           })
+  
         });
+
+        console.log("DEPOIS DO FETCH");
+  
         const data = await response.json();
+  
         if (!response.ok) {
           Alert.alert("Erro", data.message);
           return;
         }
+  
         const tipo = data.user.tipo
-        if(tipo === "FUNCIONARIO"){
-          navigation.replace("HomeAluno")
+        if(tipo === "GESTOR"){
+
+          login(data.token,data.user)
+          navigation.replace("HomeCozi")
+
         }else{
           Alert.alert("Erro","Tente novamente, você pode estar tentando logar com a o tipo errado...")
-          navigation.replace("HomeScreen")
+          navigation.replace("Home")
         }
+  
       } catch (error) {
+  
         console.log(error);
+  
         Alert.alert(
           "Erro",
           "Não foi possível conectar ao servidor."
         );
+  
       }
+  
     }
+  
     const EntradaValida = () => {
       if (email === "" || senha === "") {
         Alert.alert(
           "Erro",
-          "Os campos RA e Senha devem ser preenchidos!"
+          "Os campos Email e Senha devem ser preenchidos!"
         );
-        return
+        return;
       }
-      login();
+      autenticacao();
+  
     }
   return(
     <View style={styles.container}>
       <View style={styles.containerS}>
-        <Text style={styles.title}>Faça seu login como funcionario:</Text>
+        <Text style={styles.title}>Faça seu login como Gestor:</Text>
       </View>  
       <Text>Email:</Text>
       <TextInput 
@@ -113,7 +138,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     fontFamily:ZenDots_400Regular
-
   },
   input: {
     width: '100%',
