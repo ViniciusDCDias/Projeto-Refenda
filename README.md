@@ -145,7 +145,3 @@ Se as credenciais forem válidas, a API retorna um **token JWT** e os dados do u
 2. Faz login com suas credenciais;
 3. *(em desenvolvimento)* O aluno visualiza o cardápio da semana e agenda as refeições que irá consumir;
 4. *(em desenvolvimento)* A gestão cadastra o cardápio e acompanha quantos agendamentos foram feitos para cada dia, ajustando o preparo das refeições conforme a demanda real — reduzindo o desperdício de alimentos.
-
-## 🤝 Contribuindo
-
-Sugestões, issues e pull requests são bem-vindos! Este é um projeto em construção, ideal para quem quer contribuir com melhorias no backend (rotas de agendamento e cardápio) ou nas telas internas do app.
