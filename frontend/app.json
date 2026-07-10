@@ -8,7 +8,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#333"
+      "backgroundColor": "#000"
     },
     "extra": {
       "eas": {

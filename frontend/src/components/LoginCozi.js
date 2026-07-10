@@ -27,7 +27,7 @@ export default function LoginCozi({navigation}){
       try {
         console.log("ANTES DO FETCH");
   
-        const response = await fetch("http://192.168.0.230:3000/auth/login", {
+        const response = await fetch("http://192.168.15.9:3000/auth/login", {
           method: "POST",
   
           headers: {

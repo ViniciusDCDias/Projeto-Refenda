@@ -1,5 +1,6 @@
 import express from 'express'
 import authLogin from './routes/auth.routes.js'
+import { authMiddleware } from './middlewares/authMiddleware.js'
 
 const app = express()
 
