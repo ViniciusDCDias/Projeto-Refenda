@@ -9,10 +9,11 @@ import {
 import { AuthContext } from '../context/AuthContext';
 export default function HomeAluno({ navigation }) {
   const {usuario} = useContext(AuthContext)
+  const nome = usuario.nome
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.card}>
-        <Text style={styles.greeting}>OLÁ {usuario.nome}!</Text>
+        <Text style={styles.greeting}>OLÁ {nome.toUpperCase()}!</Text>
 
         <View style={styles.statusBox}>
           <Text style={styles.statusText}>REFEIÇÃO NÃO AGENDADA</Text>
