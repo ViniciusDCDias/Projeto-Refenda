@@ -96,22 +96,29 @@ export default function App() {
           />
 
           <Stack.Screen
-            name="AgenAluno"
-            component={AgenAluno}
-            options={{ title: 'Agendamento de Refeição' }}
-          />
-
-          <Stack.Screen
             name="CalenAluno"
             component={CalenAluno}
             options={{ title: 'Calendario Semanal' }}
           />
 
+          <Stack.Screen 
+            name="HomeFunc" 
+            component={HomeFunc} 
+            options={{ headerShown: false }} 
+          />
+
           <Stack.Screen
-            name="HistAluno"
+            name="Agendar"
+            component={AgenAluno}
+            options={{ title: 'Agendamento de Refeição' }}
+          />
+
+          <Stack.Screen
+            name="Historico"
             component={HistAluno}
             options={{ title: 'Historico de Agendamentos' }}
           />
+
         </Stack.Navigator>
 
       </NavigationContainer>

@@ -19,7 +19,7 @@ export default function HomeAluno({ navigation }) {
           <Text style={styles.statusText}>REFEIÇÃO NÃO AGENDADA</Text>
         </View>
 
-        <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.navigate('AgenAluno')}>
+        <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.navigate('Agendar')}>
           <Text style={styles.primaryButtonText}>AGENDAR</Text>
         </TouchableOpacity>
 
@@ -27,7 +27,7 @@ export default function HomeAluno({ navigation }) {
           <Text style={styles.secondaryButtonText}>VER CALENDÁRIO</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.secondaryButton} onPress={() => navigation.navigate('HistAluno')}>
+        <TouchableOpacity style={styles.secondaryButton} onPress={() => navigation.navigate('Historico')}>
           <Text style={styles.secondaryButtonText}>VER HISTÓRICO</Text>
         </TouchableOpacity>
       </View>
