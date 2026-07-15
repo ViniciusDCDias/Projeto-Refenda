@@ -19,7 +19,7 @@ export async function listUsers(req,res) {
     }
 }
 
-export async function createAluno(req,res) {
+export async function createUser(req,res) {
     try{
         const tiposPerm = ["GESTOR"]
         if (!tiposPerm.includes(req.user.tipo)){
