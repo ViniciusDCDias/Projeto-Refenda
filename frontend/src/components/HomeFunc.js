@@ -1,34 +1,35 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { AuthContext } from '../context/AuthContext';
 
 export default function HomeFunc({ navigation }) {
-  const nome = "Miguel";
-
+  const {usuario} = useContext(AuthContext)
+  const nome = usuario.nome
   return (
     <SafeAreaView style={styles.tela}>
+      <View style={styles.card}>
+        <Text style={styles.ola}>OLÁ {nome.toUpperCase()}!</Text>
 
-      <Text style={styles.ola}>OLÁ {nome}!</Text>
+        <View style={styles.aviso}>
+          <Text style={styles.textoaviso}>
+            REFEIÇÃO NÃO AGENDADA
+          </Text>
+        </View>
 
-      <View style={styles.aviso}>
-        <Text style={styles.textoaviso}>
-          REFEIÇÃO NÃO AGENDADA
-        </Text>
+        <TouchableOpacity
+          style={styles.botao}
+          onPress={() => navigation.navigate('Agendar')}
+        >
+          <Text style={styles.textoBotao}>AGENDAR</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.botao}
+          onPress={() => navigation.navigate('Historico')}
+        >
+          <Text style={styles.textoBotao}>HISTÓRICO</Text>
+        </TouchableOpacity>
       </View>
-
-      <TouchableOpacity
-        style={styles.botao}
-        onPress={() => navigation.navigate('Agendar')}
-      >
-        <Text style={styles.textoBotao}>AGENDAR</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.botao}
-        onPress={() => navigation.navigate('Historico')}
-      >
-        <Text style={styles.textoBotao}>HISTÓRICO</Text>
-      </TouchableOpacity>
-
     </SafeAreaView>
   );
 }
@@ -39,6 +40,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  card: {
+    width: '88%', backgroundColor: '#FFFFFF', borderRadius: 16,
+    paddingVertical: 60, paddingHorizontal: 24, alignItems: 'center',
+    shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08, shadowRadius: 8, elevation: 3,
   },
 
   ola: {

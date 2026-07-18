@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import HomeScreen from './src/components/HomeScreen';
+
 import LoginAluno from './src/components/LoginAluno';
 import HomeAluno from './src/components/HomeAluno';
 import AgenAluno from './src/components/AgenAluno';
@@ -11,6 +12,9 @@ import CalenAluno from './src/components/CalenAluno';
 import HistAluno from './src/components/HistAluno';
 
 import LoginCozi from './src/components/LoginCozi';
+import HomeCozi from './src/components/HomeGestor'
+
+import HomeFunc from './src/components/HomeFunc';
 import LoginFunc from './src/components/LoginFunc';
 import Agendar from './src/components/AgenAluno';
 import {AuthProvider} from './src/context/AuthContext'
@@ -117,6 +121,12 @@ export default function App() {
             name="Historico"
             component={HistAluno}
             options={{ title: 'Historico de Agendamentos' }}
+          />
+
+          <Stack.Screen 
+            name="HomeCozi" 
+            component={HomeCozi} 
+            options={{ headerShown: false }} 
           />
 
         </Stack.Navigator>
