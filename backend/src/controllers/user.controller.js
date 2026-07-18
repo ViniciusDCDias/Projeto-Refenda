@@ -48,3 +48,19 @@ export async function createUser(req,res) {
         return res.status(500).json({message:"Erro Interno no Servidor"})
     }
 }
+
+export async function excludeUser(params) {
+    try {
+        const tiposPerm = ["GESTOR"]
+        if (!tiposPerm.includes(req.user.tipo)){
+            return res.status(403).json({message:"Tipo de usuario Invalido para esta ação..."})
+        }
+        const { email } = req.params; 
+        await prisma.usuario.delete({
+            where: { email:email }
+        });
+        return res.status(204).send();
+    } catch (error) {
+        return res.status(500).json({ error: 'Erro ao deletar usuário.' });
+    }
+}
