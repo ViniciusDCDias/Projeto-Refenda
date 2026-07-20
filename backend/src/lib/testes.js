@@ -52,7 +52,12 @@ async function main()
 //      }
 //     }
 //   )
-    const usuarios = await prisma.usuarios.findMany()
+    const usuarios = await prisma.usuarios.findMany({
+      select:{
+          nome_user:true,
+          tipo_user:true,
+          email:true
+      }})
     console.log(usuarios)
 }
 
