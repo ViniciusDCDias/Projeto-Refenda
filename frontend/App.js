@@ -5,18 +5,19 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import HomeScreen from './src/components/HomeScreen';
 
-import LoginAluno from './src/components/LoginAluno';
-import HomeAluno from './src/components/HomeAluno';
-import AgenAluno from './src/components/AgenAluno';
-import CalenAluno from './src/components/CalenAluno';
-import HistAluno from './src/components/HistAluno';
+import LoginAluno from './src/components/Aluno/LoginAluno';
+import HomeAluno from './src/components/Aluno/HomeAluno';
+import AgenAluno from './src/components/Aluno/AgenAluno';
+import CalenAluno from './src/components/Aluno/CalenAluno';
+import HistAluno from './src/components/Aluno/HistAluno';
 
-import LoginCozi from './src/components/LoginCozi';
-import HomeCozi from './src/components/HomeGestor'
+import LoginCozi from './src/components/Gestor/LoginCozi';
+import HomeCozi from './src/components/Gestor/HomeGestor'
 
-import HomeFunc from './src/components/HomeFunc';
-import LoginFunc from './src/components/LoginFunc';
-import Agendar from './src/components/AgenAluno';
+import HomeFunc from './src/components/Funcionario/HomeFunc';
+import LoginFunc from './src/components/Funcionario/LoginFunc';
+import Agendar from './src/components/Aluno/AgenAluno';
+
 import {AuthProvider} from './src/context/AuthContext'
 
 import * as SplashScreen from 'expo-splash-screen';
