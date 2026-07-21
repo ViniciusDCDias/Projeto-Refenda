@@ -7,6 +7,6 @@ const router = Router()
 router.get("/",authMiddleware,listUsers)
 router.post("/",authMiddleware,createUser)
 router.delete("/:email",authMiddleware,excludeUser)
-router.put("/:email",authMiddleware,updateUser)
+router.put("/:idenficador",authMiddleware,updateUser)
 
 export default router

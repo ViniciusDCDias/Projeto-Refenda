@@ -78,7 +78,7 @@ export async function updateUser(req,res){
                 message:"Tipo de Usuario invalído, troque e tente novamente..."
             })
         }
-        const {email} = req.params
+        const {identificador} = req.params
         const senha = req.body.newSenha
         if(!senha){
             return res.status(400).json({
@@ -88,7 +88,10 @@ export async function updateUser(req,res){
         const hashedSenha = await bcrypt.hash(senha,10)
         await prisma.usuarios.update({
             where: {
-                email:email
+                OR:[
+                    {email:identificador},
+                    {id_user:identificador}
+                ]
             },
             data: {
                 senha:hashedSenha
