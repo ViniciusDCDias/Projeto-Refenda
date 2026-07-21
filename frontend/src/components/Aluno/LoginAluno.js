@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useFonts, ZenDots_400Regular } from '@expo-google-fonts/zen-dots';
 import { Inter_400Regular } from '@expo-google-fonts/inter';
 import * as SplashScreen from 'expo-splash-screen';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function LoginAluno({navigation}) {
 

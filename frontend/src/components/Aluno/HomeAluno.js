@@ -6,7 +6,7 @@ import {
   StyleSheet,
   SafeAreaView,
 } from 'react-native';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 export default function HomeAluno({ navigation }) {
   const {usuario} = useContext(AuthContext)
   const nome = usuario.nome
