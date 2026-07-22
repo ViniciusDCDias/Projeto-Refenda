@@ -30,11 +30,11 @@ export async function createUser(req,res) {
             })
         }
         const dadosUser = req.body.novo
-        // if (!dadosUser) {
-        //     return res.status(400).json({
-        //         message: "Dados do usuário não enviados."
-        //     });
-        // }
+        if (!dadosUser) {
+            return res.status(400).json({
+                message: "Dados do usuário não enviados."
+            });
+        }
         if(!["ALUNO","GESTOR","FUNCIONARIO"].includes(dadosUser.tipo)){
             return res.status(400).json({
                 message:"Tipo de Usuario invalido!"
