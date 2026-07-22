@@ -6,7 +6,7 @@ async function main()
 {
 //   const hashedThiago = await bcrypt.hash("0008",10)
 //   const hashedMiguel = await bcrypt.hash("1234",10)
-//   const hashedVitor = await bcrypt.hash(senha,10)
+  const hashedVitor = await bcrypt.hash(senha,10)
 //   const Thiago = await prisma.usuarios.create(
 //     {
 //      data: {
@@ -29,17 +29,17 @@ async function main()
 //      }
 //     }
 //   )
-//   const Vitor = await prisma.usuarios.create(
-//     {
-//      data: {
-//         nome_user:"Vitor",
-//         email:"vitinhopvp001@gmail.com",
-//         senha:hashedVitor,
-//         tipo_user:"ALUNO",
-//         ra:"260230"
-//      }
-//     }
-//   )
+  const Vitor = await prisma.usuarios.create(
+    {
+     data: {
+        nome_user:"Vinicius Duarte",
+        email:"viniciusdcenzi@gmail.com",
+        senha:hashedVitor,
+        tipo_user:"GESTOR",
+        ra:null
+     }
+    }
+  )
 //     const hashedNeymar = await bcrypt.hash("Dellareti",10)
 //     const Neymar = await prisma.usuarios.create(
 //     {

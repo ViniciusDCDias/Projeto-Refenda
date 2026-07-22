@@ -6,7 +6,7 @@
     "name": "REFENDA",
     "slug": "refenda",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./src/assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#000"
     },

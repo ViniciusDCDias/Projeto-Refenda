@@ -4,7 +4,9 @@ export async function listUsers(req,res) {
     try{
         const tiposPerm = ["GESTOR"]
         if (!tiposPerm.includes(req.user.tipo)){
-            return res.status(403).json({message:"Tipo de usuario Invalido para esta ação..."})
+            return res.status(403).json({
+                message:"Tipo de usuario Invalido para esta ação..."
+            })
         }
         const usuarios = await prisma.usuarios.findMany({
             select:{
@@ -23,11 +25,20 @@ export async function createUser(req,res) {
     try{
         const tiposPerm = ["GESTOR"]
         if (!tiposPerm.includes(req.user.tipo)){
-            return res.status(403).json({message:"Tipo de usuario Invalido para esta ação..."})
+            return res.status(403).json({
+                message:"Tipo de usuario Invalido para esta ação..."
+            })
         }
         const dadosUser = req.body.novo
+        // if (!dadosUser) {
+        //     return res.status(400).json({
+        //         message: "Dados do usuário não enviados."
+        //     });
+        // }
         if(!["ALUNO","GESTOR","FUNCIONARIO"].includes(dadosUser.tipo)){
-            return res.status(400).json({message:"Tipo de Usuario invalido!"})
+            return res.status(400).json({
+                message:"Tipo de Usuario invalido!"
+            })
         }
         const hashedSenha = await bcrypt.hash(dadosUser.senha,10)
         const data = {
@@ -35,6 +46,7 @@ export async function createUser(req,res) {
             email: dadosUser.email,
             senha: hashedSenha,
             tipo_user: dadosUser.tipo,
+            ra: null
         };
 
         if (dadosUser.tipo === "ALUNO") {
@@ -60,7 +72,8 @@ export async function excludeUser(req,res) {
             return res.status(403).json({message:"Tipo de usuario Invalido para esta ação..."})
         }
         const { email } = req.params; 
-        await prisma.usuario.delete({
+        
+        await prisma.usuarios.delete({
             where: { email:email }
         });
         return res.status(204).send();

@@ -10,13 +10,15 @@ import HomeAluno from './src/components/Aluno/HomeAluno';
 import AgenAluno from './src/components/Aluno/AgenAluno';
 import CalenAluno from './src/components/Aluno/CalenAluno';
 import HistAluno from './src/components/Aluno/HistAluno';
+import Agendar from './src/components/Aluno/AgenAluno';
 
 import LoginCozi from './src/components/Gestor/LoginCozi';
 import HomeCozi from './src/components/Gestor/HomeGestor'
+import CreateUser from './src/components/Gestor/createUser';
+import GerirUsers from './src/components/Gestor/gerirUsers';
 
 import HomeFunc from './src/components/Funcionario/HomeFunc';
 import LoginFunc from './src/components/Funcionario/LoginFunc';
-import Agendar from './src/components/Aluno/AgenAluno';
 
 import {AuthProvider} from './src/context/AuthContext'
 
@@ -128,6 +130,18 @@ export default function App() {
             name="HomeCozi" 
             component={HomeCozi} 
             options={{ headerShown: false }} 
+          />
+
+          <Stack.Screen 
+            name="GerirUsers" 
+            component={GerirUsers} 
+            options={{ title:'Gerenciamento de Usuarios'}} 
+          />
+
+          <Stack.Screen 
+            name="CreateUser" 
+            component={CreateUser} 
+            options={{ title:'Inserir dados do novo usuario'}} 
           />
 
         </Stack.Navigator>

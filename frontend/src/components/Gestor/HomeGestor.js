@@ -25,7 +25,10 @@ export default function HomeGestor ({navigation}) {
                     <TouchableOpacity style = {styles.botao} onPress = {() => navigation.navigate('DadosConsumo')}>
                         <Text  style = {styles.textoBotao}>VER DADOS DE CONSUMO</Text>  
                     </TouchableOpacity>
-                    
+
+                    <TouchableOpacity style = {styles.botaoUser} onPress = {() => navigation.navigate('GerirUsers')}>
+                        <Text  style = {styles.textoBotao}>Gerenciar Usuarios</Text>  
+                    </TouchableOpacity>
                     
                 </View>    
             </View>
@@ -50,6 +53,17 @@ const styles = StyleSheet.create({
 
     botao:{backgroundColor: '#1976D2', marginBottom: 15, borderRadius: 10,
      width: '100%', height: 55, justifyContent: 'center', alignItems:'center' },
+
+    botaoUser:{
+        backgroundColor: '#f0f0f0', 
+        marginBottom: 15, 
+        borderRadius: 10,
+        width: '100%', 
+        height: 55, 
+        justifyContent: 'center', 
+        alignItems:'center',
+        borderBlockColor:'#000'
+    },
 
     textoBotao:{color: '#F2F2F2', fontSize: 20, fontWeight: 'bold', textAlign: 'center'}
 
