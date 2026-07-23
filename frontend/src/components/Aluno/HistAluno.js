@@ -1,5 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { useFonts, ZenDots_400Regular } from '@expo-google-fonts/zen-dots';
+import { Inter_400Regular } from '@expo-google-fonts/inter';
+import * as SplashScreen from 'expo-splash-screen';
 
 const historico = [
   { data: '23/05', status: 'AGENDADO' },
@@ -9,6 +12,16 @@ const historico = [
 ];
 
 export default function HistAluno({ navigation }) {
+  let [fontsLoaded] = useFonts({
+    ZenDots_400Regular,
+    Inter_400Regular,
+  });
+
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
   return (
     <SafeAreaView style={styles.screen}>
 
@@ -31,16 +44,50 @@ export default function HistAluno({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: '#FFFFFF' },
-  header: { backgroundColor: '#E9E9E9', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 14 },
-  backText: { fontSize: 20, color: '#1A1A1A' },
-  headerTitle: { fontWeight: '700', fontSize: 14, textAlign: 'center', color: '#1A1A1A' },
-  titleButton: { backgroundColor: '#2ECC40', marginHorizontal: 20, marginTop: 20, marginBottom: 16, paddingVertical: 16, borderRadius: 10, alignItems: 'center' },
-  titleButtonText: { color: '#FFFFFF', fontWeight: '700', fontSize: 15 },
-  list: { paddingHorizontal: 20 },
-  row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#F2F2F2', borderRadius: 8, paddingVertical: 14, paddingHorizontal: 16, marginBottom: 10 },
-  rowDate: { fontSize: 13, color: '#1A1A1A', fontWeight: '600' },
-  rowStatus: { fontSize: 12, fontWeight: '700' },
-  statusOk: { color: '#2ECC40' },
-  statusNok: { color: '#E0393E' },
+  screen: { 
+    flex: 1, 
+    backgroundColor: '#FFFFFF' 
+  },
+  titleButton: { 
+    backgroundColor: '#2ECC40', 
+    marginHorizontal: 20, 
+    marginTop: 20, 
+    marginBottom: 16, 
+    paddingVertical: 16, 
+    borderRadius: 10, 
+    alignItems: 'center' 
+  },
+  titleButtonText: { 
+    color: '#FFFFFF', 
+    fontSize: 20,
+    fontFamily:'ZenDots_400Regular' 
+  },
+  list: { 
+    paddingHorizontal: 20 
+  },
+  row: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    alignItems: 'center', 
+    backgroundColor: '#F2F2F2', 
+    borderRadius: 8, 
+    paddingVertical: 14, 
+    paddingHorizontal: 16, 
+    marginBottom: 10 
+  },
+  rowDate: { 
+    fontSize: 15, 
+    color: '#1A1A1A',
+    fontFamily:'Inter_400Regular'
+  },
+  rowStatus: { 
+    fontSize: 15, 
+    fontFamily:'Inter_400Regular'
+  },
+  statusOk: { 
+    color: '#2ECC40' 
+  },
+  statusNok: { 
+    color: '#E0393E' 
+  },
 });

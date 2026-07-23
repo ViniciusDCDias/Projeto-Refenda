@@ -1,6 +1,9 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
-//Retirar Quando Estiver Pronta a Rota !
+import { useFonts, ZenDots_400Regular } from '@expo-google-fonts/zen-dots';
+import { Inter_400Regular } from '@expo-google-fonts/inter';
+import * as SplashScreen from 'expo-splash-screen';
+
 const almocoDeHoje = {
   dia: 'TERÇA - 17 DE MARÇO',
   itens: [
@@ -13,6 +16,16 @@ const almocoDeHoje = {
 };
 
 export default function AgenAluno({ navigation }) {
+  let [fontsLoaded] = useFonts({
+    ZenDots_400Regular,
+    Inter_400Regular,
+  });
+
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
   return (
     <SafeAreaView style={styles.screen}>
 
@@ -42,18 +55,74 @@ export default function AgenAluno({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: '#FFFFFF', paddingHorizontal: 20, paddingTop: 16 },
-  backButton: { marginBottom: 12 },
-  backText: { fontSize: 20, color: '#1A1A1A' },
-  dayHeader: { backgroundColor: '#2ECC40', borderRadius: 10, paddingVertical: 14, paddingHorizontal: 16, marginBottom: 2 },
-  dayHeaderText: { color: '#FFFFFF', fontWeight: '700', fontSize: 15 },
-  content: { backgroundColor: '#E9E9E9', borderBottomLeftRadius: 10, borderBottomRightRadius: 10, padding: 16, marginBottom: 24 },
-  sectionTitle: { fontWeight: '700', fontSize: 13, color: '#1A1A1A', marginBottom: 12 },
-  itemRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
-  itemEmoji: { fontSize: 16, marginRight: 8 },
-  itemText: { fontSize: 14, color: '#1A1A1A' },
-  confirmButton: { backgroundColor: '#2ECC40', paddingVertical: 16, borderRadius: 10, alignItems: 'center', marginBottom: 16 },
-  confirmButtonText: { color: '#FFFFFF', fontWeight: '700', fontSize: 14 },
-  cancelButton: { alignSelf: 'center', borderWidth: 1, borderColor: '#D0D0D0', borderRadius: 16, paddingVertical: 6, paddingHorizontal: 20 },
-  cancelButtonText: { color: '#9A9A9A', fontWeight: '600', fontSize: 12 },
+  screen: { 
+    flex: 1, 
+    backgroundColor: '#FFFFFF', 
+    paddingHorizontal: 20, 
+    paddingTop: 16 ,
+    justifyContent:'center'
+  },
+  dayHeader: { 
+    backgroundColor: '#2ECC40', 
+    borderRadius: 10, 
+    paddingVertical: 14, 
+    paddingHorizontal: 16, 
+    marginBottom: 2 
+  },
+  dayHeaderText: { 
+    color: '#FFFFFF', 
+    fontSize: 23,
+    fontFamily:'ZenDots_400Regular' 
+  },
+  content: { 
+    backgroundColor: '#E9E9E9', 
+    borderBottomLeftRadius: 10, 
+    borderBottomRightRadius: 10, 
+    padding: 16, 
+    marginBottom: 24 
+  },
+  sectionTitle: { 
+    fontSize: 20, 
+    color: '#1A1A1A', 
+    marginBottom: 12,
+    fontFamily:'Inter_400Regular'
+  },
+  itemRow: { 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    marginBottom: 10 
+  },
+  itemEmoji: { 
+    fontSize: 16, marginRight: 8 
+  },
+  itemText: { 
+    fontSize: 18, 
+    color: '#1A1A1A',
+    fontFamily:'Inter_400Regular' 
+  },
+  confirmButton: { 
+    backgroundColor: '#2ECC40', 
+    paddingVertical: 16, 
+    borderRadius: 10, 
+    alignItems: 'center', 
+    marginBottom: 16 
+  },
+  confirmButtonText: { 
+    color: '#FFFFFF',  
+    fontSize: 18,
+    fontFamily:'Inter_400Regular'
+  },
+  cancelButton: { 
+    alignSelf: 'center', 
+    borderWidth: 1, 
+    borderColor: '#D0D0D0', 
+    borderRadius: 16, 
+    paddingVertical: 6, 
+    paddingHorizontal: 20
+  },
+  cancelButtonText: { 
+    color: '#9A9A9A', 
+    fontSize: 15,
+    fontFamily:'Inter_400Regular'
+  },
 });

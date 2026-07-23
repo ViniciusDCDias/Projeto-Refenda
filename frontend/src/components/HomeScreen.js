@@ -110,5 +110,6 @@ const styles = StyleSheet.create({
     color: '#333',
     textAlign: 'center',
     fontWeight: '500',
+    fontFamily:'Inter_400Regular'
   },
 });

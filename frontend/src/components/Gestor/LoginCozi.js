@@ -90,14 +90,14 @@ export default function LoginCozi({navigation}){
       <View style={styles.containerS}>
         <Text style={styles.title}>Faça seu login como Gestor:</Text>
       </View>  
-      <Text>Email:</Text>
+      <Text style={styles.EveryText}>Email:</Text>
       <TextInput 
       style={styles.input}
       placeholder="Digite seu email"
       value={email}
       onChangeText={setemail}
       />
-      <Text>Senha:</Text>
+      <Text style={styles.EveryText}>Senha:</Text>
       <TextInput 
       style={styles.input}
       placeholder="Digite sua senha"
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     padding: 20,
     backgroundColor: '#f9f9f9',
-    fontFamily:Inter_400Regular
+    fontFamily:'Inter_400Regular'
   },
   containerS:{
     flex: 1,
@@ -135,17 +135,17 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
     marginBottom: 20,
-    fontFamily:ZenDots_400Regular
+    fontFamily:'Inter_400Regular'
   },
   input: {
     width: '100%',
-    padding: 10,
+    padding: 14,
     marginBottom: 10,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius:50,
+    fontFamily:'Inter_400Regular'
   },
   button:{
     width:53,
@@ -156,6 +156,12 @@ const styles = StyleSheet.create({
     borderRadius:5,
   },
   buttonText:{
-    color:"#fff"
-  }
+    color:"#fff",
+    fontFamily:'Inter_400Regular'
+  },
+  EveryText:{
+    fontSize:19,
+    marginBottom:10,
+    fontFamily:'Inter_400Regular'
+},
 })

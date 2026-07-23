@@ -62,15 +62,16 @@ export default function CreateUser({navigation}){
         }
     }
     const EntradaValida = () => {
-        if (nome == "" || email === "" || senha === "" || tipo == "") {
+        if (nome == "" || email === "" ||  tipo == "") {
         Alert.alert(
             "Erro",
             "Há campos obrigatorios vazios"
         );
         return;
         }
-        console.log(ra)
-        console.log(setRA)
+        if(!senha){
+            setSenha("Etec@195")
+        }
         create();
     
     }
@@ -150,7 +151,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     padding: 20,
     backgroundColor: '#f9f9f9',
-    fontFamily:Inter_400Regular
+    fontFamily:'Inter_400Regular'
     },
     containerS:{
     flex: 1,
@@ -160,10 +161,9 @@ const styles = StyleSheet.create({
     margin:0
     },
     title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    fontFamily:ZenDots_400Regular
+        fontSize: 24,
+        marginBottom: 20,
+        fontFamily:'Inter_400Regular'
     },
     input: {
     width: '100%',
@@ -172,6 +172,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#ccc',
     borderRadius:50,
+    fontFamily:'Inter_400Regular'
     },
     button:{
     width:100,
@@ -182,7 +183,8 @@ const styles = StyleSheet.create({
     borderRadius:5,
     },
     buttonText:{
-    color:"#fff"
+    color:"#fff",
+    fontFamily:'Inter_400Regular'
     },
     radio:{ 
         flexDirection: 'column',
@@ -196,11 +198,13 @@ const styles = StyleSheet.create({
     EveryText:{
         fontSize:19,
         marginBottom:10,
-        alignSelf:'center'
+        alignSelf:'center',
+        fontFamily:'Inter_400Regular'
     },
     RadioText:{
         fontSize:19,
-        alignSelf:'center'
+        alignSelf:'center',
+        fontFamily:'Inter_400Regular'
     },
     radioCircle: {
         height: 20,

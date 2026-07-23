@@ -1,10 +1,24 @@
-import React, {useContext} from 'react';
+import React, {useContext,useEffect} from 'react';
 import { Text, View, SafeAreaView, TouchableOpacity, StyleSheet} from 'react-native';
+import { useFonts, ZenDots_400Regular } from '@expo-google-fonts/zen-dots';
+import { Inter_400Regular } from '@expo-google-fonts/inter';
 import { AuthContext } from '../../context/AuthContext';
+import * as SplashScreen from 'expo-splash-screen';
 
 export default function HomeGestor ({navigation}) {
-   const {usuario} = useContext(AuthContext)
-  const nome = usuario.nome
+    const {usuario} = useContext(AuthContext)
+    const nome = usuario.nome
+
+    let [fontsLoaded] = useFonts({
+        ZenDots_400Regular,
+        Inter_400Regular,
+    });
+        useEffect(() => {
+        if (fontsLoaded) {
+        // Esconde a splash screen quando a fonte carregar
+        SplashScreen.hideAsync();
+        }
+    }, [fontsLoaded]);
 
     return (
         <SafeAreaView style={styles.tela}>
@@ -14,7 +28,7 @@ export default function HomeGestor ({navigation}) {
                 </View>
 
                 <View style={styles.containerBotoes}>
-                    <TouchableOpacity style = {styles.botao} onPress = {() => navigation.navigate('EditarRefeicoes') }>  
+                    <TouchableOpacity style = {styles.botao} onPress = {() => navigation.navigate('GerirRefeicoes') }>  
                         <Text style = {styles.textoBotao}>EDITAR REFEIÇÕES</Text>
                     </TouchableOpacity>
 
@@ -38,21 +52,54 @@ export default function HomeGestor ({navigation}) {
 
 const styles = StyleSheet.create({
 
-    tela:{ flex: 1, backgroundColor: '#F2F2F2', justifyContent: 'center', alignItems: 'center' },
-    card: {
-        width: '88%', backgroundColor: '#FFFFFF', borderRadius: 16,
-        paddingVertical: 60, paddingHorizontal: 24, alignItems: 'center',
-        shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.08, shadowRadius: 8, elevation: 3,
+    tela:{ flex: 1, 
+        backgroundColor: '#F2F2F2', 
+        justifyContent: 'center', 
+        alignItems: 'center' 
     },
-    saudacao:{width: '88%' , marginBottom: 50, marginTop: 80, alignItems: 'center'},
+    card: {
+        width: '88%', 
+        backgroundColor: '#FFFFFF', 
+        borderRadius: 16,
+        paddingVertical: 60, 
+        paddingHorizontal: 24, 
+        alignItems: 'center',
+        shadowColor: '#000', 
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.08, 
+        shadowRadius: 8, 
+        elevation: 3,
+    },
+    saudacao:{
+        width: '88%' , 
+        marginBottom: 50, 
+        marginTop: 80, 
+        alignItems: 'center'
+    },
 
-    textoSaudacao:{fontSize: 30, color: '#000000', fontWeight: 'bold', textAlign: 'center'},
+    textoSaudacao:{
+        fontSize: 30, 
+        color: '#000000',  
+        textAlign: 'center',
+        fontFamily:'ZenDots_400Regular'
+    },
 
-    containerBotoes:{width: '88%', alignItems: 'center', justifyContent: 'center', marginTop: 25},
+    containerBotoes:{
+        width: '88%', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        marginTop: 25
+    },
 
-    botao:{backgroundColor: '#1976D2', marginBottom: 15, borderRadius: 10,
-     width: '100%', height: 55, justifyContent: 'center', alignItems:'center' },
+    botao:{
+        backgroundColor: '#1976D2', 
+        marginBottom: 15, 
+        borderRadius: 10,
+        width: '100%', 
+        height: 55, 
+        justifyContent: 'center', 
+        alignItems:'center' 
+    },
 
     botaoUser:{
         marginTop:105,
@@ -63,10 +110,24 @@ const styles = StyleSheet.create({
         height: 55, 
         justifyContent: 'center', 
         alignItems:'center',
-        borderBlockColor:'#000',
+        shadowColor: '#000', 
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.08, 
+        shadowRadius: 5, 
+        elevation: 1,
     },
 
-    textoBotao:{color: '#F2F2F2', fontSize: 20, fontWeight: 'bold', textAlign: 'center'},
-    textoBotaoU:{color: '#2f2e2e', fontSize: 20, fontWeight: 'bold', textAlign: 'center'}
+    textoBotao:{
+        color: '#F2F2F2', 
+        fontSize: 20,  
+        textAlign: 'center',
+        fontFamily:'Inter_400Regular'
+    },
+    textoBotaoU:{
+        color: '#2f2e2e', 
+        fontSize: 20, 
+        textAlign: 'center',
+        fontFamily:'ZenDots_400Regular'
+    }
 
 });

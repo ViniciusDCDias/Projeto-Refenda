@@ -112,7 +112,7 @@ export default function LoginAluno({navigation}) {
         </Text>
       </View>
 
-      <Text>Registro do Aluno:</Text>
+      <Text style={styles.EveryText}>Registro do Aluno:</Text>
 
       <TextInput
         style={styles.input}
@@ -122,7 +122,7 @@ export default function LoginAluno({navigation}) {
         keyboardType="numeric"
       />
 
-      <Text>Senha:</Text>
+      <Text style={styles.EveryText}>Senha:</Text>
 
       <TextInput
         style={styles.input}
@@ -171,9 +171,8 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
     marginBottom: 20,
-    fontFamily: ZenDots_400Regular
+    fontFamily:'Inter_400Regular'
   },
 
   input: {
@@ -183,6 +182,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 50,
+    fontFamily:'Inter_400Regular'
   },
 
   button: {
@@ -196,6 +196,11 @@ const styles = StyleSheet.create({
 
   buttonText: {
     color: "#fff"
-  }
+  },
+  EveryText:{
+    fontSize:19,
+    marginBottom:10,
+    fontFamily:'Inter_400Regular'
+  },
 
 });

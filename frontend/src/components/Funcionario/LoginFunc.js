@@ -69,14 +69,14 @@ export default function LoginFunc({navigation}){
       <View style={styles.containerS}>
         <Text style={styles.title}>Faça seu login como funcionario:</Text>
       </View>  
-      <Text>Email:</Text>
+      <Text style={styles.EveryText}>Email:</Text>
       <TextInput 
       style={styles.input}
       placeholder="Digite seu email"
       value={email}
       onChangeText={setemail}
       />
-      <Text>Senha:</Text>
+      <Text style={styles.EveryText}>Senha:</Text>
       <TextInput 
       style={styles.input}
       placeholder="Digite sua senha"
@@ -114,9 +114,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
     marginBottom: 20,
-    fontFamily:ZenDots_400Regular
+    fontFamily:'Inter_400Regular'
 
   },
   input: {
@@ -126,6 +125,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius:50,
+    fontFamily:'Inter_400Regular'
   },
   button:{
     width:53,
@@ -137,5 +137,10 @@ const styles = StyleSheet.create({
   },
   buttonText:{
     color:"#fff"
-  }
+  },
+  EveryText:{
+    fontSize:19,
+    marginBottom:10,
+    fontFamily:'Inter_400Regular'
+  },
 })

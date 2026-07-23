@@ -16,6 +16,7 @@ import LoginCozi from './src/components/Gestor/LoginCozi';
 import HomeCozi from './src/components/Gestor/HomeGestor'
 import CreateUser from './src/components/Gestor/createUser';
 import GerirUsers from './src/components/Gestor/gerirUsers';
+import GerirRefeicoes from './src/components/Gestor/gerirRefeicoes';
 
 import HomeFunc from './src/components/Funcionario/HomeFunc';
 import LoginFunc from './src/components/Funcionario/LoginFunc';
@@ -142,6 +143,12 @@ export default function App() {
             name="CreateUser" 
             component={CreateUser} 
             options={{ title:'Inserir dados do novo usuario'}} 
+          />
+
+          <Stack.Screen
+            name="GerirRefeicoes"
+            component={GerirRefeicoes}
+            options={{title:"Gerenciamento de Refeições da semana: "}}
           />
 
         </Stack.Navigator>

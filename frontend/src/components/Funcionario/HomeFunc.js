@@ -1,10 +1,23 @@
-import React,{useContext} from 'react';
+import React,{useContext,useEffect} from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { useFonts, ZenDots_400Regular } from '@expo-google-fonts/zen-dots';
+import { Inter_400Regular } from '@expo-google-fonts/inter';
 import { AuthContext } from '../../context/AuthContext';
+import * as SplashScreen from 'expo-splash-screen';
 
 export default function HomeFunc({ navigation }) {
   const {usuario} = useContext(AuthContext)
   const nome = usuario.nome
+  let [fontsLoaded] = useFonts({
+      ZenDots_400Regular,
+      Inter_400Regular,
+  });
+      useEffect(() => {
+      if (fontsLoaded) {
+      // Esconde a splash screen quando a fonte carregar
+      SplashScreen.hideAsync();
+      }
+  }, [fontsLoaded]);
   return (
     <SafeAreaView style={styles.tela}>
       <View style={styles.card}>
@@ -51,8 +64,8 @@ const styles = StyleSheet.create({
 
   ola: {
     fontSize: 25,
-    fontWeight: 'bold',
     marginBottom: 50,
+    fontFamily:'ZenDots_400Regular'
   },
 
   aviso: {
@@ -60,15 +73,15 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'gray',
     borderRadius: 30,
-    padding: 15,
+    padding: 10,
     alignItems: 'center',
     marginBottom: 50,
   },
 
   textoaviso: {
     color: 'red',
-    fontSize: 22,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontFamily:'Inter_400Regular'
   },
 
   botao: {
@@ -83,6 +96,6 @@ const styles = StyleSheet.create({
   textoBotao: {
     color: 'white',
     fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily:'Inter_400Regular'
   },
 });
