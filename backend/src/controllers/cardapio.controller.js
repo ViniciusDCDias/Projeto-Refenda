@@ -47,10 +47,6 @@ export async function excludeRefeicao(req,res){
                 data_ref:data
             }
         })
-        if(resultado.count == 0){
-            return res.status(404).json({message:"Nenhum refeição foi cadastrada para este dia..."})
-        }
-
         return res.status(204).send()
     }catch(error){
         console.log(error)
