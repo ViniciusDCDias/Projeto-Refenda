@@ -78,6 +78,9 @@ export async function excludeUser(req,res) {
         });
         return res.status(204).send();
     } catch (error) {
+        if (error.code === 'P2025') {
+            return res.status(404).json({ message: "Nenhum usuario foi encontrado com este email." });
+        }
         return res.status(500).json({ message: 'Erro interno no Servidor' });
     }
 }
