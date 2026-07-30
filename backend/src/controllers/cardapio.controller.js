@@ -31,3 +31,29 @@ export async function createRefeicao(req, res) {
         return res.status(500).json({ message: "Erro interno no servidor ao cadastrar refeição." });
     }
 }
+
+export async function excludeRefeicao(req, res) {
+    try {
+        const tiposPerm = ["GESTOR"];
+        if (!tiposPerm.includes(req.user.tipo)) {
+            return res.status(403).json({ message: "Tipo de usuário não autorizado, tente novamente..." });
+        }
+        const { data } = req.params;
+        if (!data) {
+            return res.status(400).json({ message: "A data não foi enviada, tente novamente." });
+        }
+        const dataFormatada = new Date(`${data}T00:00:00.000Z`);
+        await prisma.cardapios.delete({
+            where: {
+                data_ref: dataFormatada
+            }
+        });
+        return res.status(200).json({ message: "Refeição excluída com sucesso!" });
+    } catch (error) {
+        if (error.code === 'P2025') {
+            return res.status(404).json({ message: "Nenhuma refeição encontrada para esta data." });
+        }
+        console.error("Erro ao excluir refeição:", error);
+        return res.status(500).json({ message: "Erro interno no Servidor" });
+    }
+}
