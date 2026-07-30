@@ -7,15 +7,25 @@ import {
   FlatList,
   Alert,
 } from "react-native";
+import { useFonts, ZenDots_400Regular } from '@expo-google-fonts/zen-dots';
+import { Inter_400Regular } from '@expo-google-fonts/inter';
 import { MaterialIcons } from "@expo/vector-icons";
-// Ajuste o caminho conforme seu projeto
 import { AuthContext } from "../../context/AuthContext";
+import * as SplashScreen from 'expo-splash-screen';
 
 export default function GerirUsers({ navigation }) {
   const { token } = useContext(AuthContext);
-
   const [usuarios, setUsuarios] = useState([]);
-
+  let [fontsLoaded] = useFonts({
+      ZenDots_400Regular,
+      Inter_400Regular,
+  });
+      useEffect(() => {
+      if (fontsLoaded) {
+      // Esconde a splash screen quando a fonte carregar
+      SplashScreen.hideAsync();
+      }
+  }, [fontsLoaded]);
   async function getUsers() {
     try {
       const response = await fetch("http://192.168.0.230:3000/users", {
@@ -25,14 +35,11 @@ export default function GerirUsers({ navigation }) {
           authorization: `Bearer ${token}`,
         },
       });
-
       const data = await response.json();
-
       if (!response.ok) {
         Alert.alert("Erro", data.message);
         return;
       }
-
       setUsuarios(data);
     } catch (error) {
       console.log(error);
@@ -42,11 +49,9 @@ export default function GerirUsers({ navigation }) {
       );
     }
   }
-
   useEffect(() => {
     getUsers();
   }, []);
-
   async function deleteUser(email) {
     try {
       const response = await fetch(
@@ -59,21 +64,17 @@ export default function GerirUsers({ navigation }) {
           },
         }
       );
-
       if (!response.ok) {
         const data = await response.json();
         Alert.alert("Erro", data.message);
         return;
       }
-
       setUsuarios((usuariosAnteriores) =>
         usuariosAnteriores.filter(
           (usuario) => usuario.email !== email
         )
       );
-
       Alert.alert("Sucesso", "Usuário excluído com sucesso!");
-
     } catch (error) {
       console.log(error);
       Alert.alert(
@@ -81,6 +82,28 @@ export default function GerirUsers({ navigation }) {
         "Não foi possível conectar com o servidor."
       );
     }
+  }
+
+  async function redefinePassword(email){
+    try{const response = await fetch(
+      `192.168.0.230/users/${email}`,
+      {method:"PUT",
+        headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+        }
+      }
+    )
+    if(!response.ok){
+      const data = response.json()
+      Alert.alert("Erro",data.message)
+    }
+
+    Alert.alert("Sucesso!","Senha Redefinida com sucesso")
+  }catch(error){
+    console.log(error)
+    Alert.alert("Erro","Não foi possivel conectar com o servidor")
+  }
   }
 
   function handleAddUser() {
@@ -104,21 +127,35 @@ export default function GerirUsers({ navigation }) {
     ]
   );
 }
+  async function handleredefine(email){
+    Alert.alert(
+      "Redefinir Senha",
+      "Deseja realmente redefinir a senha deste usuario?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel"
+        },
+        {
+          text:"Excluir",
+          style: "destructive",
+          onPress: () => redefinePassword(email)
+        }
+      ]
+    )
+  }
 
   function renderItem({ item, index }) {
     return (
       <View style={styles.card}>
         <Text style={styles.numero}>{index + 1}º</Text>
-
         <View style={styles.infoContainer}>
           <View style={styles.topRow}>
             <Text style={styles.nome}>{item.nome_user}</Text>
-
             <View style={styles.rightSide}>
               <Text style={styles.tipo}>
                 {item.tipo_user}
               </Text>
-
               <TouchableOpacity
                 onPress={() => handleDelete(item.email)}
               >
@@ -130,10 +167,14 @@ export default function GerirUsers({ navigation }) {
               </TouchableOpacity>
             </View>
           </View>
-
           <Text style={styles.email}>
             {item.email}
           </Text>
+          <TouchableOpacity
+            onPress={() => handleredefine(item.email)}
+          >
+              <Text>Redefinir Senha</Text>
+            </TouchableOpacity>
         </View>
       </View>
     );
@@ -148,12 +189,10 @@ export default function GerirUsers({ navigation }) {
         <View style={styles.circle}>
           <Text style={styles.plus}>+</Text>
         </View>
-
         <Text style={styles.addText}>
           ADICIONAR USUÁRIO
         </Text>
       </TouchableOpacity>
-
       <FlatList
         data={usuarios}
         keyExtractor={(item, index) =>
@@ -180,24 +219,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#D9D9D9",
     borderRadius: 12,
     height: 100,
-
     flexDirection: "row",
     alignItems: "center",
-
     paddingHorizontal: 20,
-
     marginBottom: 25,
   },
 
   circle: {
     width: 38,
     height: 38,
-
     borderRadius: 19,
-
     borderWidth: 3,
     borderColor: "#00D639",
-
     justifyContent: "center",
     alignItems: "center",
   },
@@ -210,34 +243,25 @@ const styles = StyleSheet.create({
 
   addText: {
     flex: 1,
-
     textAlign: "center",
-
     color: "#00D639",
-
     fontSize: 22,
-    fontWeight: "bold",
+    fontFamily:'Inter_400Regular'
   },
 
   card: {
     backgroundColor: "#D9D9D9",
-
     borderRadius: 12,
-
     padding: 18,
-
     marginBottom: 18,
-
     flexDirection: "row",
   },
 
   numero: {
     fontSize: 28,
-    fontWeight: "bold",
-
     marginRight: 15,
-
     alignSelf: "center",
+    fontFamily:'Inter_400Regular'
   },
 
   infoContainer: {
@@ -247,28 +271,28 @@ const styles = StyleSheet.create({
   topRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-
     marginBottom: 18,
   },
 
   nome: {
     fontSize: 22,
-    fontWeight: "bold",
     flex: 1,
+    fontFamily:'Inter_400Regular'
   },
 
   tipo: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily:'Inter_400Regular'
   },
 
   email: {
     fontSize: 18,
     textAlign: "center",
+    fontFamily:'Inter_400Regular'
   },
   rightSide: {
-  flexDirection: "row",
-  alignItems: "center",
-  gap: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
   },
 });
