@@ -88,34 +88,31 @@ export async function updateRefeicao(req,res){
     }
 }
 
-export async function cardapioSemana(req,res){
-    try{
-        const tiposPerm = ["Gestor"]
-        if(!tiposPerm.includes(req.user)){
-            return res.status(403).json({message:"Tipo de Usuario não Autorizado, tente novamente..."})
+export async function cardapioDia(req, res) {
+    try {
+        const diaHoje = new Date();
+        const dataFormatada = new Date(
+            Date.UTC(
+                diaHoje.getFullYear(),
+                diaHoje.getMonth(),
+                diaHoje.getDate()
+            )
+        );
+        const refeicao = await prisma.cardapio.findFirst({
+            where: {
+                data_ref: dataFormatada
+            }
+        });
+        if (!refeicao) {
+            return res.status(404).json({
+                message: "Não há cardápio para hoje"
+            });
         }
-        const dataHoje = new Date()
-        const dia = dataHoje.getDate()
-        const diaHoje = dataHoje.getDay()
-        if(diaHoje == 0){
-            console.log("Hoje é Domingo")
-            const diaSegunda = new Date()
-        }else if(diaHoje == 1){
-            console.log("Hoje é Segunda!!")
-        }else if(diaHoje == 2){
-            console.log("Hoje é Terça!")
-        }else if(diaHoje == 3){
-            console.log("Hoje é Quarta")
-        }else if(diaHoje == 4){
-            console.log("Hoje é Quinta")
-        }else if(diaHoje == 5){
-            console.log("Hoje é Sexta")
-        }else if(diaHoje == 6){
-            console.log("Hoje é Sabado")
-        }
-
-    }catch(error){
-        console.log(error)
-        return res.status(500).json({message:"Erro Interno no Servidor"})
+        return res.status(200).json(refeicao);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Erro Interno no Servidor"
+        });
     }
 }
