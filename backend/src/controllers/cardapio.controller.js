@@ -87,3 +87,35 @@ export async function updateRefeicao(req,res){
         return res.status(500).json({message:"Erro Interno no Servidor"})
     }
 }
+
+export async function cardapioSemana(req,res){
+    try{
+        const tiposPerm = ["Gestor"]
+        if(!tiposPerm.includes(req.user)){
+            return res.status(403).json({message:"Tipo de Usuario não Autorizado, tente novamente..."})
+        }
+        const dataHoje = new Date()
+        const dia = dataHoje.getDate()
+        const diaHoje = dataHoje.getDay()
+        if(diaHoje == 0){
+            console.log("Hoje é Domingo")
+            const diaSegunda = new Date()
+        }else if(diaHoje == 1){
+            console.log("Hoje é Segunda!!")
+        }else if(diaHoje == 2){
+            console.log("Hoje é Terça!")
+        }else if(diaHoje == 3){
+            console.log("Hoje é Quarta")
+        }else if(diaHoje == 4){
+            console.log("Hoje é Quinta")
+        }else if(diaHoje == 5){
+            console.log("Hoje é Sexta")
+        }else if(diaHoje == 6){
+            console.log("Hoje é Sabado")
+        }
+
+    }catch(error){
+        console.log(error)
+        return res.status(500).json({message:"Erro Interno no Servidor"})
+    }
+}
