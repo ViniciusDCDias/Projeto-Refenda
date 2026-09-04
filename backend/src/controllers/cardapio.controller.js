@@ -89,7 +89,7 @@ export async function updateRefeicao(req,res){
 }
 
 
-export async function listRefsSemana(req,res){
+export async function CardapioSemana(req,res){
     try{
         const tiposPerm = ["GESTOR","ALUNO"]
         if(!tiposPerm.includes(req.user)){
@@ -129,7 +129,8 @@ export async function listRefsSemana(req,res){
     }catch(error){
         console.log(error)
         return res.status(500).json({message:"Erro Interno no Servidor"})
-      
+    }
+}
 export async function cardapioDia(req, res) {
     try {
         const diaHoje = new Date();
