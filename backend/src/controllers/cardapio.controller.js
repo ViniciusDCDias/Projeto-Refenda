@@ -129,5 +129,32 @@ export async function listRefsSemana(req,res){
     }catch(error){
         console.log(error)
         return res.status(500).json({message:"Erro Interno no Servidor"})
+      
+export async function cardapioDia(req, res) {
+    try {
+        const diaHoje = new Date();
+        const dataFormatada = new Date(
+            Date.UTC(
+                diaHoje.getFullYear(),
+                diaHoje.getMonth(),
+                diaHoje.getDate()
+            )
+        );
+        const refeicao = await prisma.cardapio.findFirst({
+            where: {
+                data_ref: dataFormatada
+            }
+        });
+        if (!refeicao) {
+            return res.status(404).json({
+                message: "Não há cardápio para hoje"
+            });
+        }
+        return res.status(200).json(refeicao);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Erro Interno no Servidor"
+        });
     }
 }

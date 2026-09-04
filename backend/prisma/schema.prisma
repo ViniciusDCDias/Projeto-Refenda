@@ -26,6 +26,7 @@ model cardapios {
   atividade_ref Boolean?       @default(true)
   data_ref      DateTime       @unique(map: "data_ref") @db.Date
   agendamentos  agendamentos[]
+  consumos      consumo[]
 }
 
 model usuarios {
@@ -42,4 +43,13 @@ enum usuarios_tipo_user {
   GESTOR
   ALUNO
   FUNCIONARIO
+}
+
+model consumo {
+  id_con     Int      @id @default(autoincrement())
+  fabricados Float
+  sobras     Float
+  id_ref     Int?
+
+  cardapio   cardapios? @relation(fields: [id_ref], references: [id_ref])
 }
