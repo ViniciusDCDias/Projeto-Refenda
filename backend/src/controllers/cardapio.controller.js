@@ -87,3 +87,47 @@ export async function updateRefeicao(req,res){
         return res.status(500).json({message:"Erro Interno no Servidor"})
     }
 }
+
+
+export async function listRefsSemana(req,res){
+    try{
+        const tiposPerm = ["GESTOR","ALUNO"]
+        if(!tiposPerm.includes(req.user)){
+            return res.status(403).json({message:"Tipos de usuario não autorizado, tente novamente..."})
+        }
+
+        const dataHoje = new Date()
+        dataHoje.setHours(0,0,0,0)
+        const diaHoje = dataHoje.getDay()
+
+        let diferenca;
+
+        if( diaHoje === 0){
+            diferenca = 1
+        }else if(diaHoje === 1){
+            diferenca = 2
+        }else{
+            diferenca = 1 - diaHoje
+        }
+        //Define Segunda Feira apartir da diferença entre o Hoje e Ela
+        const segunda = new Date(dataHoje)
+        segunda.setDate(dataHoje.getDate() + diferenca)
+        //Define Sexta Feira apartir da diferença entre Segunda e Ela
+        const sexta = new Date(segunda)
+        sexta.setDate(segunda.getDate() + 4)
+        sexta.setHours(23,59,59,999)
+
+        const refeicoes = await prisma.cardapios.select({
+            where: {
+                gte:segunda,
+                lte:sexta
+            }
+        })
+
+        return res.status(200).json({refeicoes})
+        
+    }catch(error){
+        console.log(error)
+        return res.status(500).json({message:"Erro Interno no Servidor"})
+    }
+}
