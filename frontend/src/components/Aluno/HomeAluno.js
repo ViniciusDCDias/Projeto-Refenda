@@ -4,14 +4,13 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
 } from 'react-native';
 import { AuthContext } from '../../context/AuthContext';
 export default function HomeAluno({ navigation }) {
   const {usuario} = useContext(AuthContext)
   const nome = usuario.nome
   return (
-    <SafeAreaView style={styles.screen}>
+    <View style={styles.screen}>
       <View style={styles.card}>
         <Text style={styles.greeting}>OLÁ {nome.toUpperCase()}!</Text>
 
@@ -31,7 +30,7 @@ export default function HomeAluno({ navigation }) {
           <Text style={styles.secondaryButtonText}>VER HISTÓRICO</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

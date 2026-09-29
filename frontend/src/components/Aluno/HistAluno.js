@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 
 const historico = [
   { data: '23/05', status: 'AGENDADO' },
@@ -10,7 +10,7 @@ const historico = [
 
 export default function HistAluno({ navigation }) {
   return (
-    <SafeAreaView style={styles.screen}>
+    <View style={styles.screen}>
 
       <View style={styles.titleButton}>
         <Text style={styles.titleButtonText}>HISTÓRICO</Text>
@@ -26,7 +26,7 @@ export default function HistAluno({ navigation }) {
           </View>
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 

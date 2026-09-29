@@ -1,110 +1,160 @@
-import React from 'react';
-import { Text, View, SafeAreaView, TouchableOpacity, StyleSheet, ScrollView} from 'react-native';
+import React, { useState } from 'react';
+import {
+    Text,
+    View,
+    TouchableOpacity,
+    StyleSheet,
+    ScrollView,
+    Alert
+} from 'react-native';
 
-export default function EditarRefeicoes({ navigation }) {
-  return (
-    <SafeAreaView style = {styles.tela}>
-        <ScrollView contentContainerStyle={styles.container}>
-            <Text style = {styles.selecioneRef}>SELECIONE A REFEIÇÃO:</Text>  
-            <View style={styles.listaRefeicoes}>
-               <TouchableOpacity style={styles.cartao} onPress={() => navigation.navigate('EditarCardapio')}>
-                    <View style={styles.topoCartao}>
-                        <Text style={styles.textoCartao}>SEGUNDA -FEIRA: 16 DE MARÇO</Text>
-                    </View>
-                    <View style={styles.corpoCartao}>
-                        <Text style={styles.textoCartao}>
-                            Frango grelhado, Arroz, Feijão,{"\n"}
-                            Salada de alface e tomate,{"\n"}
-                            Maçã
-                        </Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.cartao} onPress={() => navigation.navigate('EditarCardapio')}>
-                    <View style={styles.topoCartao}>
-                        <Text style={styles.textoCartao}>TERÇA -FEIRA: 17 DE MARÇO</Text>
-                    </View>
-                    <View style={styles.corpoCartao}>
-                        <Text style={styles.textoCartao}>
-                            Macarrão ao molho de carne{"\n"}
-                            moída, Salada de cenoura{"\n"}
-                            ralada, Banana
-                        </Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.cartao} onPress={() => navigation.navigate('EditarCardapio')}>
-                    <View style={styles.topoCartao}>
-                        <Text style={styles.textoCartao}>QUARTA -FEIRA: 18 DE MARÇO</Text>
-                    </View>
-                    <View style={styles.corpoCartao}>
-                        <Text style={styles.textoCartao}>
-                           Peixe assado, Arroz, Feijão, Purê{"\n"}
-                           de batata, Laranja{"\n"} 
-                        </Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.cartao} onPress={() => navigation.navigate('EditarCardapio')}>
-                    <View style={styles.topoCartao}>
-                        <Text style={styles.textoCartao}>QUINTA -FEIRA: 19 DE MARÇO</Text>
-                    </View>
-                    <View style={styles.corpoCartao}>
-                        <Text style={styles.textoCartao}>
-                           Carne moída refogada, Arroz,{"\n"}
-                           Feijão, Salada de repolho,{"\n"}
-                           Melancia 
-                        </Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.cartao} onPress={() => navigation.navigate('EditarCardapio')}>
-                    <View style={styles.topoCartao}>
-                        <Text style={styles.textoCartao}>SEXTA -FEIRA: 20 DE MARÇO</Text>
-                    </View>
-                    <View style={styles.corpoCartao}>
-                        <Text style={styles.textoCartao}>
-                           Frango ensopado, Arroz, Feijão,{"\n"}
-                           Legumes cozidos(cenoura e{"\n"}
-                           batata), Abacaxi 
-                        </Text>
-                    </View>
-                </TouchableOpacity>
-            </View>
-        </ScrollView>
-    </SafeAreaView>
-  );
+export default function GerirRefeicoes({ navigation }) {
+    const [refeicoes, setRefeicoes] = useState([]);
+
+    const diasSemana = [
+        'Segunda-feira',
+        'Terça-feira',
+        'Quarta-feira',
+        'Quinta-feira',
+        'Sexta-feira'
+    ];
+
+    async function getUsers() {
+        try {
+            const response = await fetch(
+                "http://192.168.0.246:3000/cardapios/semana",
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                Alert.alert("Erro", data.message);
+                return;
+            }
+
+            setRefeicoes(data);
+
+        } catch (error) {
+            console.log(error);
+
+            Alert.alert(
+                "Erro",
+                "Não foi possível conectar com o servidor."
+            );
+        }
+    }
+
+    const refeicoesSemana = diasSemana.map((dia, index) => {
+        const refeicao = refeicoes.find(Item => {
+            const data = new Date(Item.data_ref);
+
+            return data.getDay() === index + 1;
+        });
+
+        return {
+            dia,
+            refeicao
+        };
+    });
+
+    return (
+        <View style={styles.tela}>
+
+            <ScrollView contentContainerStyle={styles.container}>
+
+                <Text style={styles.selecioneRef}>
+                    SELECIONE A REFEIÇÃO:
+                </Text>
+
+                <View style={styles.listaRefeicoes}>
+
+                    {refeicoesSemana.map((Item, index) => (
+
+                        <TouchableOpacity
+                            key={index}
+                            style={styles.cartao}
+                            onPress={() =>
+                                navigation.navigate('EditarCardapio', {
+                                    refeicao: Item.refeicao
+                                })
+                            }
+                        >
+
+                            <View style={styles.topoCartao}>
+                                <Text style={styles.textoCartao}>
+                                    {Item.dia}
+                                </Text>
+                            </View>
+
+                            <View style={styles.corpoCartao}>
+
+                                <Text style={styles.textoCartao}>
+                                    {Item.refeicao
+                                        ? Item.refeicao.descricao_ref
+                                        : 'Preciso adicionar informações'}
+                                </Text>
+
+                            </View>
+
+                        </TouchableOpacity>
+
+                    ))}
+
+                </View>
+
+            </ScrollView>
+
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-    tela:{ 
-        flex: 1, 
+    tela: {
+        flex: 1,
         backgroundColor: '#F2F2F2'
-    } ,
-    container:{
-        paddingBottom:20
     },
-    selecioneRef:{
-        fontSize: 16, 
-        fontWeight: 'bold', 
+
+    container: {
+        paddingBottom: 20
+    },
+
+    selecioneRef: {
+        fontSize: 16,
+        fontWeight: 'bold',
         marginBottom: 15
     },
-    listaRefeicoes:{
+
+    listaRefeicoes: {
         paddingHorizontal: 20
     },
-    cartao:{
-        backgroundColor: '#FFFFFF', 
+
+    cartao: {
+        backgroundColor: '#FFFFFF',
         borderRadius: 12,
-        overflow: 'hidden', 
+        overflow: 'hidden',
         marginBottom: 15
-    }, 
-    topoCartao:{
-        backgroundColor: '#00D82F', 
-        padding:12
     },
-    corpoCartao:{
-        backgroundColor: '#D9D9D9', 
-        padding:15
+
+    topoCartao: {
+        backgroundColor: '#00D82F',
+        padding: 12
     },
-    textoCartao:{
-        fontSize: 16, 
-        color: '#333333', 
+
+    corpoCartao: {
+        backgroundColor: '#D9D9D9',
+        padding: 15
+    },
+
+    textoCartao: {
+        fontSize: 16,
+        color: '#333333',
         lineHeight: 24
     }
 });

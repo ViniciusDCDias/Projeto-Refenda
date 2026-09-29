@@ -1,18 +1,42 @@
+import prisma from "./src/lib/prisma.js"
+export async function CardapioSemana(){
+    try{
         const dataHoje = new Date()
-        console.log(dataHoje.toLocaleDateString('pt-br'))
+        dataHoje.setHours(0,0,0,0)
         const diaHoje = dataHoje.getDay()
-        if(diaHoje == 0){
-            console.log("Hoje é Domingo")
-        }else if(diaHoje == 1){
-            console.log("Hoje é Segunda!!")
-        }else if(diaHoje == 2){
-            console.log("Hoje é Terça!")
-        }else if(diaHoje == 3){
-            console.log("Hoje é Quarta")
-        }else if(diaHoje == 4){
-            console.log("Hoje é Quinta")
-        }else if(diaHoje == 5){
-            console.log("Hoje é Sexta")
-        }else if(diaHoje == 6){
-            console.log("Hoje é Sabado")
+
+        let diferenca;
+
+        if( diaHoje === 0){
+            diferenca = 1
+        }else if(diaHoje === 1){
+            diferenca = 2
+        }else{
+            diferenca = 1 - diaHoje
         }
+        //Define Segunda Feira apartir da diferença entre o Hoje e Ela
+        const segunda = new Date(dataHoje)
+        segunda.setDate(dataHoje.getDate() + diferenca)
+        //Define Sexta Feira apartir da diferença entre Segunda e Ela
+        const sexta = new Date(segunda)
+        sexta.setDate(segunda.getDate() + 4)
+        sexta.setHours(23,59,59,999)
+
+        const refeicoes = await prisma.cardapios.findMany({
+            where: {
+                data_ref:{
+                    gte:segunda,
+                    lte:sexta
+                }
+            }
+        })
+
+        return console.log(refeicoes)
+        
+    }catch(error){
+        console.log(error)
+        return ;
+    }
+}
+
+CardapioSemana()

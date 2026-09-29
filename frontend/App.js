@@ -7,7 +7,6 @@ import HomeScreen from './src/components/HomeScreen';
 
 import LoginAluno from './src/components/Aluno/LoginAluno';
 import HomeAluno from './src/components/Aluno/HomeAluno';
-import AgenAluno from './src/components/Aluno/AgenAluno';
 import CalenAluno from './src/components/Aluno/CalenAluno';
 import HistAluno from './src/components/Aluno/HistAluno';
 import Agendar from './src/components/Aluno/AgenAluno';
@@ -16,6 +15,9 @@ import LoginCozi from './src/components/Gestor/LoginCozi';
 import HomeCozi from './src/components/Gestor/HomeGestor'
 import CreateUser from './src/components/Gestor/createUser';
 import GerirUsers from './src/components/Gestor/gerirUsers';
+import GerirRefeicoes from './src/components/Gestor/GerirRefeicoes';
+import ConsultarAgendamentos from './src/components/Gestor/consultaAgendamentos';
+import DadosConsumo from './src/components/Gestor/consumoMensal';
 
 import HomeFunc from './src/components/Funcionario/HomeFunc';
 import LoginFunc from './src/components/Funcionario/LoginFunc';
@@ -116,7 +118,7 @@ export default function App() {
 
           <Stack.Screen
             name="Agendar"
-            component={AgenAluno}
+            component={Agendar}
             options={{ title: 'Agendamento de Refeição' }}
           />
 
@@ -144,6 +146,23 @@ export default function App() {
             options={{ title:'Inserir dados do novo usuario'}} 
           />
 
+          <Stack.Screen 
+            name="EditarRefeicoes" 
+            component={GerirRefeicoes} 
+            options={{ title:'Gerenciamento de refeições'}} 
+          />
+
+          <Stack.Screen 
+            name="ConsultarAgendamentos" 
+            component={ConsultarAgendamentos} 
+            options={{ title:'Consulta de Agendamentos do dia'}} 
+          />
+
+          <Stack.Screen 
+            name="DadosConsumo" 
+            component={DadosConsumo} 
+            options={{ title:'Consumo no mês'}} 
+          />
         </Stack.Navigator>
 
       </NavigationContainer>

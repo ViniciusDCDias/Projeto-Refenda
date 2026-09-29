@@ -1,9 +1,9 @@
 import react from 'react';
-import { Text, View, SafeAreaView, StyleSheet} from 'react-native';
+import { Text, View, StyleSheet} from 'react-native';
 
 export default function ConsultarAgendamentos  ({navigation}) {
     return(
-        <SafeAreaView style = {styles.tela}>
+        <View style = {styles.tela}>
             <View style = {styles.card}>
                 <Text style = {styles.titulo}>REFEIÇÕES AGENDADAS HOJE:</Text>
 
@@ -17,7 +17,7 @@ export default function ConsultarAgendamentos  ({navigation}) {
 
             </View>
         
-        </SafeAreaView>
+        </View>
 
     );
 }

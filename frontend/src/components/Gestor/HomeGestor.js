@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import { Text, View, SafeAreaView, TouchableOpacity, StyleSheet} from 'react-native';
+import { Text, View, SafeAreaViewBase, TouchableOpacity, StyleSheet} from 'react-native';
 import { AuthContext } from '../../context/AuthContext';
 
 export default function HomeGestor ({navigation}) {
@@ -7,7 +7,7 @@ export default function HomeGestor ({navigation}) {
   const nome = usuario.nome
 
     return (
-        <SafeAreaView style={styles.tela}>
+        <View style={styles.tela}>
             <View style={styles.card}>
                 <View style={styles.saudacao}>
                     <Text style = {styles.textoSaudacao}>OLÁ {nome.toUpperCase()}!</Text>
@@ -15,7 +15,7 @@ export default function HomeGestor ({navigation}) {
 
                 <View style={styles.containerBotoes}>
                     <TouchableOpacity style = {styles.botao} onPress = {() => navigation.navigate('EditarRefeicoes') }>  
-                        <Text style = {styles.textoBotao}>EDITAR REFEIÇÕES</Text>
+                        <Text style = {styles.textoBotao}>GERIR REFEIÇÕES</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style = {styles.botao} onPress = {() => navigation.navigate('ConsultarAgendamentos')}>
@@ -27,12 +27,12 @@ export default function HomeGestor ({navigation}) {
                     </TouchableOpacity>
 
                     <TouchableOpacity style = {styles.botaoUser} onPress = {() => navigation.navigate('GerirUsers')}>
-                        <Text  style = {styles.textoBotao}>Gerenciar Usuarios</Text>  
+                        <Text  style = {styles.textoBotaoUser}>Gerenciar Usuarios</Text>  
                     </TouchableOpacity>
                     
                 </View>    
             </View>
-        </SafeAreaView>
+        </View>
     );
 }
 
@@ -65,6 +65,6 @@ const styles = StyleSheet.create({
         borderBlockColor:'#000'
     },
 
-    textoBotao:{color: '#F2F2F2', fontSize: 20, fontWeight: 'bold', textAlign: 'center'}
-
+    textoBotao:{color: '#F2F2F2', fontSize: 20, fontWeight: 'bold', textAlign: 'center'},
+    textoBotaoUser:{color: '#2d2c2c', fontSize: 20, fontWeight: 'bold', textAlign: 'center'}
 });

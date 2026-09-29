@@ -20,10 +20,11 @@ export default function LoginFunc({navigation}){
   }, [fontsLoaded]);
   const [email,setemail] = useState('')
   const [senha,setSenha] = useState('')
-
+  const [carregando, setCarregando] = useState(false)
   const autenticacao = async () => {
+    setCarregando(true)
       try {
-        const response = await fetch("http://192.168.0.230:3000/auth/login", {
+        const response = await fetch("http://192.168.0.246:3000/auth/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -36,6 +37,7 @@ export default function LoginFunc({navigation}){
         const data = await response.json();
         if (!response.ok) {
           Alert.alert("Erro", data.message);
+          navigation.replace("Home")
           return;
         }
         const tipo = data.user.tipo
@@ -52,6 +54,8 @@ export default function LoginFunc({navigation}){
           "Erro",
           "Não foi possível conectar ao servidor."
         );
+      }finally{
+        setCarregando(false)
       }
     }
     const EntradaValida = () => {
@@ -86,7 +90,8 @@ export default function LoginFunc({navigation}){
       />
       <View style={styles.containerS}>
         <TouchableOpacity
-          style={styles.button}
+          disabled={carregando}
+          style={[styles.button, carregando && styles.buttonDisable]}
           onPress={EntradaValida}
         >
           <Text style={styles.buttonText}>Entrar</Text>
@@ -137,5 +142,8 @@ const styles = StyleSheet.create({
   },
   buttonText:{
     color:"#fff"
+  },
+  buttonDisable:{
+    backgroundColor:"#354c62"
   }
 })

@@ -1,6 +1,7 @@
 import prisma from '../lib/prisma.js'
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken";
+import { ValidarEmail } from '../functions/Email.js';
 
 export async function login(req,res) {
     try{
@@ -9,7 +10,11 @@ export async function login(req,res) {
         if(!identificador || !senha){
             return res.status(400).json({message:"Dados faltando"})
         }
-
+        if(identificador.includes("@") && identificador.includes(".")){    
+            if(!ValidarEmail(identificador)){
+                return res.status(400).json({message:"Email Incorret, Tente novamente"})
+            }
+        }
         const user = await prisma.usuarios.findFirst({
             where:{
                 OR:[
@@ -34,7 +39,6 @@ export async function login(req,res) {
         process.env.JWT_SECRET,
         { expiresIn: "1d" }
         );
-        // Retorna p/ usuario o response
         return res.status(200).json(
             {
                 token,

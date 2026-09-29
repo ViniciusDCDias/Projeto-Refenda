@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet} from 'react-native';
 
 const semana = [
   { dia: 'SEGUNDA-FEIRA: 16 DE MARÇO', cardapio: 'Frango grelhado, Arroz ,Feijão, Salada de alface e tomate, Maçã' },
@@ -11,7 +11,7 @@ const semana = [
 
 export default function CalenAluno({ navigation }) {
   return (
-    <SafeAreaView style={styles.screen}>
+    <View style={styles.screen}>
 
       <View style={styles.frame}>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -27,7 +27,7 @@ export default function CalenAluno({ navigation }) {
           ))}
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

@@ -29,7 +29,7 @@ export default function CreateUser({navigation}){
             if (ra == ''){
                 setRA(null)
             }
-            const response = await fetch("http://192.168.0.230:3000/users", {
+            const response = await fetch("http://192.168.0.246:3000/users", {
                 method:"POST",
                 headers:{
                     'Content-Type': 'application/json',

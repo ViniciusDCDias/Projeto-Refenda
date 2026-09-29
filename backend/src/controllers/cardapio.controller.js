@@ -1,4 +1,4 @@
-import prisma from "../lib/prisma"
+import prisma from "../lib/prisma.js"
 export async function createRefeicao(req, res) {
     try {
         const tiposPerm = ["GESTOR"]
@@ -117,10 +117,12 @@ export async function CardapioSemana(req,res){
         sexta.setDate(segunda.getDate() + 4)
         sexta.setHours(23,59,59,999)
 
-        const refeicoes = await prisma.cardapios.select({
+        const refeicoes = await prisma.cardapios.findMany({
             where: {
-                gte:segunda,
-                lte:sexta
+                data_ref:{
+                    gte:segunda,
+                    lte:sexta
+                }
             }
         })
 
@@ -141,7 +143,7 @@ export async function cardapioDia(req, res) {
                 diaHoje.getDate()
             )
         );
-        const refeicao = await prisma.cardapio.findFirst({
+        const refeicao = await prisma.cardapios.findFirst({
             where: {
                 data_ref: dataFormatada
             }

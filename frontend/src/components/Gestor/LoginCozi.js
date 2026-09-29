@@ -21,13 +21,13 @@ export default function LoginCozi({navigation}){
   }, [fontsLoaded]);
   const [email,setemail] = useState('')
   const [senha,setSenha] = useState('')
-
+  const [carregando,setCarregando] = useState(false)
   const autenticacao = async () => {
-  
+    setCarregando(true)
       try {
         console.log("ANTES DO FETCH");
   
-        const response = await fetch("http://192.168.0.230:3000/auth/login", {
+        const response = await fetch("http://192.168.0.246:3000/auth/login", {
           method: "POST",
   
           headers: {
@@ -47,6 +47,7 @@ export default function LoginCozi({navigation}){
   
         if (!response.ok) {
           Alert.alert("Erro", data.message);
+          navigation.replace("Home")
           return;
         }
   
@@ -70,6 +71,8 @@ export default function LoginCozi({navigation}){
           "Não foi possível conectar ao servidor."
         );
   
+      }finally{
+        setCarregando(true)
       }
   
     }
@@ -107,7 +110,8 @@ export default function LoginCozi({navigation}){
       />
       <View style={styles.containerS}>
         <TouchableOpacity
-          style={styles.button}
+          disabled={carregando}
+          style={[styles.button, carregando && styles.buttonDisable]}
           onPress={EntradaValida}
         >
           <Text style={styles.buttonText}>Entrar</Text>
@@ -157,5 +161,8 @@ const styles = StyleSheet.create({
   },
   buttonText:{
     color:"#fff"
+  },
+  buttonDisable:{
+    backgroundColor:"#354c62"
   }
 })

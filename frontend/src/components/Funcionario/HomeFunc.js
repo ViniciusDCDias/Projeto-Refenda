@@ -1,12 +1,12 @@
 import React,{useContext} from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet} from 'react-native';
 import { AuthContext } from '../../context/AuthContext';
 
 export default function HomeFunc({ navigation }) {
   const {usuario} = useContext(AuthContext)
   const nome = usuario.nome
   return (
-    <SafeAreaView style={styles.tela}>
+    <View style={styles.tela}>
       <View style={styles.card}>
         <Text style={styles.ola}>OLÁ {nome.toUpperCase()}!</Text>
 
@@ -30,7 +30,7 @@ export default function HomeFunc({ navigation }) {
           <Text style={styles.textoBotao}>HISTÓRICO</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

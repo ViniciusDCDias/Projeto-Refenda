@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Text, View, SafeAreaView, TouchableOpacity, StyleSheet, TextInput} from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, TextInput} from 'react-native';
 
 export default function CriarCardapio({navigation}) {
     const [descricao, setDescricao] = useState('');
     return (
-        <SafeAreaView style = {styles.tela}>
+        <View style = {styles.tela}>
                 <View style = {styles.diaSemana}>
                     <Text style = {styles.textDiaSemana}>SEGUNDA -FEIRA: 16 DE MARÇO</Text>
                 </View>
@@ -20,7 +20,7 @@ export default function CriarCardapio({navigation}) {
                         <Text style={styles.textoBotao}>SALVAR</Text>
                     </TouchableOpacity>
                 </View>
-        </SafeAreaView>
+        </View>
     );
 }
 

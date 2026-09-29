@@ -22,12 +22,12 @@ export default function LoginAluno({navigation}) {
 
   const [ra, setRa] = useState("");
   const [senha, setSenha] = useState("");
-
+  const [carregando,setCarregando] = useState(false)
   const validacao = async () => {
-
+    setCarregando(true)
     try {
 
-      const response = await fetch("http://192.168.0.230:3000/auth/login", {
+      const response = await fetch("http://192.168.0.246:3000/auth/login", {
         method: "POST",
 
         headers: {
@@ -45,6 +45,7 @@ export default function LoginAluno({navigation}) {
 
       if (!response.ok) {
         Alert.alert("Erro", data.message);
+        navigation.replace("Home")
         return;
       }
 
@@ -68,6 +69,8 @@ export default function LoginAluno({navigation}) {
         "Não foi possível conectar ao servidor."
       );
 
+    }finally{
+      setCarregando(false)
     }
 
   }
@@ -135,7 +138,8 @@ export default function LoginAluno({navigation}) {
       <View style={styles.containerS}>
 
         <TouchableOpacity
-          style={styles.button}
+          disabled={carregando}
+          style={[styles.button, carregando && styles.buttonDisable]}
           onPress={EntradaValida}
         >
 
@@ -196,6 +200,8 @@ const styles = StyleSheet.create({
 
   buttonText: {
     color: "#fff"
+  },
+  buttonDisable:{
+    backgroundColor:"#354c62"
   }
-
 });

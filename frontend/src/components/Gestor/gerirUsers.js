@@ -28,7 +28,7 @@ export default function GerirUsers({ navigation }) {
   }, [fontsLoaded]);
   async function getUsers() {
     try {
-      const response = await fetch("http://192.168.0.230:3000/users", {
+      const response = await fetch("http://192.168.0.246:3000/users", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -55,7 +55,7 @@ export default function GerirUsers({ navigation }) {
   async function deleteUser(email) {
     try {
       const response = await fetch(
-        `http://192.168.0.230:3000/users/${email}`,
+        `http://192.168.0.246:3000/users/${email}`,
         {
           method: "DELETE",
           headers: {
@@ -74,7 +74,7 @@ export default function GerirUsers({ navigation }) {
           (usuario) => usuario.email !== email
         )
       );
-      Alert.alert("Sucesso", "Usuário excluído com sucesso!");
+      return Alert.alert("Sucesso", "Usuário excluído com sucesso!");
     } catch (error) {
       console.log(error);
       Alert.alert(
@@ -86,7 +86,7 @@ export default function GerirUsers({ navigation }) {
 
   async function redefinePassword(email){
     try{const response = await fetch(
-      `192.168.0.230/users/${email}`,
+      `http://192.168.0.246:3000/users/${email}`,
       {method:"PUT",
         headers: {
             "Content-Type": "application/json",
@@ -96,10 +96,10 @@ export default function GerirUsers({ navigation }) {
     )
     if(!response.ok){
       const data = response.json()
-      Alert.alert("Erro",data.message)
+      return Alert.alert("Erro",data.message)
     }
 
-    Alert.alert("Sucesso!","Senha Redefinida com sucesso")
+    return Alert.alert("Sucesso!","Senha Redefinida com sucesso")
   }catch(error){
     console.log(error)
     Alert.alert("Erro","Não foi possivel conectar com o servidor")

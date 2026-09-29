@@ -1,9 +1,9 @@
 import react from 'react';
-import { Text, View, SafeAreaView, StyleSheet} from 'react-native';
+import { Text, View, StyleSheet} from 'react-native';
 
 export default function DadosConsumo ({navigation}){
     return(
-        <SafeAreaView style = {styles.tela}>
+        <View style = {styles.tela}>
             <View style = {styles.card1}>
                 <Text style = {styles.titulo}>CONSUMO:</Text>
             </View>
@@ -16,7 +16,7 @@ export default function DadosConsumo ({navigation}){
                     </Text>
                 </View>
 
-        </SafeAreaView>
+        </View>
     );
 }  
 
