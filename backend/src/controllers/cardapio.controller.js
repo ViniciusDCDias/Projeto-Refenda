@@ -5,7 +5,7 @@ export async function createRefeicao(req, res) {
         if (!tiposPerm.includes(req.user.tipo)) {
             return res.status(403).json({ message: "Tipo de usuário não autorizado, tente novamente..." })
         }
-        const refeicao = req.body.novo;
+        const refeicao = req.body;
         if (!refeicao) {
             return res.status(400).json({ message: "Dados para refeição não enviados, tente novamente." })
         }
@@ -16,11 +16,11 @@ export async function createRefeicao(req, res) {
                 message: `O campo '${campoFaltando}' é obrigatório para cadastrar a refeição.` 
             })
         }
-        const novaRefeicao = await prisma.cardapio.create({
+        const novaRefeicao = await prisma.cardapios.create({
             data: {
                 nome_ref: refeicao.nome,
                 descricao_ref: refeicao.descricao,
-                data_ref: new Date(`${refeicao.data}T00:00:00.000Z`)
+                data_ref: new Date(`${refeicao.data}`)
             }
         })
         return res.status(201).json({
@@ -91,11 +91,6 @@ export async function updateRefeicao(req,res){
 
 export async function CardapioSemana(req,res){
     try{
-        const tiposPerm = ["GESTOR","ALUNO"]
-        if(!tiposPerm.includes(req.user)){
-            return res.status(403).json({message:"Tipos de usuario não autorizado, tente novamente..."})
-        }
-
         const dataHoje = new Date()
         dataHoje.setHours(0,0,0,0)
         const diaHoje = dataHoje.getDay()
@@ -112,20 +107,24 @@ export async function CardapioSemana(req,res){
         //Define Segunda Feira apartir da diferença entre o Hoje e Ela
         const segunda = new Date(dataHoje)
         segunda.setDate(dataHoje.getDate() + diferenca)
+        segunda.setHours(0,0,0,0)
         //Define Sexta Feira apartir da diferença entre Segunda e Ela
         const sexta = new Date(segunda)
         sexta.setDate(segunda.getDate() + 4)
-        sexta.setHours(23,59,59,999)
+        sexta.setHours(20,59,59,999)
 
+        const gtePesquisa = new Date(segunda)
+        gtePesquisa.setDate(segunda.getDate() - 1)
+        gtePesquisa.setHours(0,0,0,0)
         const refeicoes = await prisma.cardapios.findMany({
             where: {
                 data_ref:{
-                    gte:segunda,
+                    gte:gtePesquisa,
                     lte:sexta
                 }
             }
         })
-
+        console.log(gtePesquisa)
         return res.status(200).json({refeicoes})
         
     }catch(error){

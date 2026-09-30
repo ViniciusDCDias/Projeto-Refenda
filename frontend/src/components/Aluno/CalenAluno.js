@@ -1,44 +1,190 @@
-import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet} from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Alert
+} from 'react-native';
 
-const semana = [
-  { dia: 'SEGUNDA-FEIRA: 16 DE MARÇO', cardapio: 'Frango grelhado, Arroz ,Feijão, Salada de alface e tomate, Maçã' },
-  { dia: 'TERÇA-FEIRA: 16 DE MARÇO', cardapio: 'Macarrão ao molho de carne moída, Salada de cenoura ralada, Banana' },
-  { dia: 'QUARTA-FEIRA: 16 DE MARÇO', cardapio: 'Peixe assado, Arroz, Feijão, Purê de batata, Laranja' },
-  { dia: 'QUINTA-FEIRA: 16 DE MARÇO', cardapio: 'Carne moída refogada, Arroz, Feijão, Salada de repolho, Melancia' },
-  { dia: 'SEXTA-FEIRA: 16 DE MARÇO', cardapio: 'Frango ensopado, Arroz, Feijão, Legumes cozidos (cenoura e batata), Abacaxi' },
-];
+import { AuthContext } from '../../context/AuthContext';
 
 export default function CalenAluno({ navigation }) {
+
+  const { token } = useContext(AuthContext);
+
+  const [refeicoes, setRefeicoes] = useState([]);
+
+  const diasSemana = [
+    'SEGUNDA-FEIRA',
+    'TERÇA-FEIRA',
+    'QUARTA-FEIRA',
+    'QUINTA-FEIRA',
+    'SEXTA-FEIRA'
+  ];
+
+  async function getRef() {
+    try {
+
+      const response = await fetch(
+        "http://192.168.0.246:3000/cardapio/semana",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        Alert.alert("Erro", data.message);
+        return;
+      }
+
+      // Se a API retornar undefined ou null,
+      // usamos um array vazio.
+      if (Array.isArray(data)) {
+        setRefeicoes(data);
+      } else {
+        setRefeicoes([]);
+      }
+
+    } catch (error) {
+
+      console.log(error);
+
+      Alert.alert(
+        "Erro",
+        "Não foi possível conectar com o servidor."
+      );
+    }
+  }
+
+  useEffect(() => {
+    getRef();
+  }, []);
+
+  const semana = diasSemana.map((dia, index) => {
+
+    const refeicao = refeicoes.find(Item => {
+
+      const data = new Date(Item.data_ref);
+
+      return data.getDay() === index + 1;
+
+    });
+
+    return {
+      dia,
+      refeicao
+    };
+  });
+
   return (
     <View style={styles.screen}>
 
       <View style={styles.frame}>
+
         <ScrollView showsVerticalScrollIndicator={false}>
+
           {semana.map((item, index) => (
-            <View key={index} style={styles.dayBlock}>
+
+            <View
+              key={index}
+              style={styles.dayBlock}
+            >
+
               <View style={styles.dayHeader}>
-                <Text style={styles.dayHeaderText}>{item.dia}</Text>
+
+                <Text style={styles.dayHeaderText}>
+                  {item.dia}
+
+                  {item.refeicao &&
+                    `: ${new Date(
+                      item.refeicao.data_ref
+                    ).toLocaleDateString('pt-BR')}`
+                  }
+
+                </Text>
+
               </View>
+
               <View style={styles.dayContent}>
-                <Text style={styles.dayContentText}>{item.cardapio}</Text>
+
+                <Text style={styles.dayContentText}>
+
+                  {item.refeicao
+                    ? item.refeicao.descricao_ref
+                    : 'Preciso adicionar informações'
+                  }
+
+                </Text>
+
               </View>
+
             </View>
+
           ))}
+
         </ScrollView>
+
       </View>
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: '#FFFFFF', paddingHorizontal: 20, paddingTop: 16 },
-  backButton: { marginBottom: 12 },
-  backText: { fontSize: 20, color: '#1A1A1A' },
-  frame: { flex: 1, borderWidth: 2, borderColor: '#1A1A1A', borderRadius: 20, padding: 12 },
-  dayBlock: { marginBottom: 10 },
-  dayHeader: { backgroundColor: '#2ECC40', paddingVertical: 8, paddingHorizontal: 12, borderTopLeftRadius: 8, borderTopRightRadius: 8 },
-  dayHeaderText: { color: '#FFFFFF', fontWeight: '700', fontSize: 11 },
-  dayContent: { backgroundColor: '#F2F2F2', paddingVertical: 10, paddingHorizontal: 12, borderBottomLeftRadius: 8, borderBottomRightRadius: 8 },
-  dayContentText: { fontSize: 12, color: '#1A1A1A', fontWeight: '600', lineHeight: 17 },
+
+  screen: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 20,
+    paddingTop: 16
+  },
+
+  frame: {
+    flex: 1,
+    borderWidth: 2,
+    borderColor: '#1A1A1A',
+    borderRadius: 20,
+    padding: 12
+  },
+
+  dayBlock: {
+    marginBottom: 10
+  },
+
+  dayHeader: {
+    backgroundColor: '#2ECC40',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8
+  },
+
+  dayHeaderText: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    fontSize: 11
+  },
+
+  dayContent: {
+    backgroundColor: '#F2F2F2',
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8
+  },
+
+  dayContentText: {
+    fontSize: 12,
+    color: '#1A1A1A',
+    fontWeight: '600',
+    lineHeight: 17
+  }
+
 });

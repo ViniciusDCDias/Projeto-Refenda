@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     Text,
     View,
@@ -8,7 +8,10 @@ import {
     Alert
 } from 'react-native';
 
+import { AuthContext } from '../../context/AuthContext';
+
 export default function GerirRefeicoes({ navigation }) {
+    const { token } = useContext(AuthContext);
     const [refeicoes, setRefeicoes] = useState([]);
 
     const diasSemana = [
@@ -19,43 +22,57 @@ export default function GerirRefeicoes({ navigation }) {
         'Sexta-feira'
     ];
 
-    async function getUsers() {
+    async function getRefeicoes() {
         try {
             const response = await fetch(
-                "http://192.168.0.246:3000/cardapios/semana",
+                'http://192.168.0.246:3000/cardapio/semana',
                 {
-                    method: "GET",
+                    method: 'GET',
                     headers: {
-                        "Content-Type": "application/json",
-                        authorization: `Bearer ${token}`,
-                    },
+                        'Content-Type': 'application/json',
+                        authorization: `Bearer ${token}`
+                    }
                 }
             );
 
             const data = await response.json();
 
             if (!response.ok) {
-                Alert.alert("Erro", data.message);
+                Alert.alert(
+                    'Erro',
+                    data.message || 'Erro ao buscar cardápios.'
+                );
                 return;
             }
 
-            setRefeicoes(data);
+            setRefeicoes(data.refeicoes || []);
 
         } catch (error) {
             console.log(error);
 
             Alert.alert(
-                "Erro",
-                "Não foi possível conectar com o servidor."
+                'Erro',
+                'Não foi possível conectar com o servidor.'
             );
         }
     }
 
+    useEffect(() => {
+        getRefeicoes();
+    }, []);
+
     const refeicoesSemana = diasSemana.map((dia, index) => {
         const refeicao = refeicoes.find(Item => {
+            if (!Item || !Item.data_ref) {
+                return false;
+            }
+
             const data = new Date(Item.data_ref);
 
-            return data.getDay() === index + 1;
+            // Corrige o fuso horário do Brasil (UTC-3)
+            data.setHours(data.getHours() + 3);
+
+            return data.getDay() === index;
         });
 
         return {
@@ -64,9 +81,10 @@ export default function GerirRefeicoes({ navigation }) {
         };
     });
 
+    console.log('Refeições:', refeicoes);
+
     return (
         <View style={styles.tela}>
-
             <ScrollView contentContainerStyle={styles.container}>
 
                 <Text style={styles.selecioneRef}>
@@ -76,15 +94,42 @@ export default function GerirRefeicoes({ navigation }) {
                 <View style={styles.listaRefeicoes}>
 
                     {refeicoesSemana.map((Item, index) => (
-
                         <TouchableOpacity
                             key={index}
                             style={styles.cartao}
-                            onPress={() =>
-                                navigation.navigate('EditarCardapio', {
-                                    refeicao: Item.refeicao
-                                })
-                            }
+                            onPress={() => {
+
+                                if (Item.refeicao) {
+
+                                    navigation.navigate(
+                                        'EditarRefeicao',
+                                        {
+                                            refeicao: Item.refeicao
+                                        }
+                                    );
+
+                                } else {
+                                    const hoje = new Date();
+                                    const diaAtual = hoje.getDay();
+                                    const diferenca =
+                                        index - diaAtual + 1;
+                                    const data = new Date(hoje);
+                                    data.setDate(
+                                        hoje.getDate() + diferenca
+                                    );
+
+                                    const dataFormatada =
+                                        data.toISOString();
+
+                                    navigation.navigate(
+                                        'CriarRefeicao',
+                                        {
+                                            dia: Item.dia,
+                                            data: dataFormatada
+                                        }
+                                    );
+                                }
+                            }}
                         >
 
                             <View style={styles.topoCartao}>
@@ -94,23 +139,19 @@ export default function GerirRefeicoes({ navigation }) {
                             </View>
 
                             <View style={styles.corpoCartao}>
-
                                 <Text style={styles.textoCartao}>
                                     {Item.refeicao
                                         ? Item.refeicao.descricao_ref
                                         : 'Preciso adicionar informações'}
                                 </Text>
-
                             </View>
 
                         </TouchableOpacity>
-
                     ))}
 
                 </View>
 
             </ScrollView>
-
         </View>
     );
 }

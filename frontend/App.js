@@ -18,6 +18,8 @@ import GerirUsers from './src/components/Gestor/gerirUsers';
 import GerirRefeicoes from './src/components/Gestor/GerirRefeicoes';
 import ConsultarAgendamentos from './src/components/Gestor/consultaAgendamentos';
 import DadosConsumo from './src/components/Gestor/consumoMensal';
+import EditarCardapio from './src/components/Gestor/EditarRefeicao';
+import CriarCardapio from './src/components/Gestor/CriarRefeicao';
 
 import HomeFunc from './src/components/Funcionario/HomeFunc';
 import LoginFunc from './src/components/Funcionario/LoginFunc';
@@ -162,6 +164,18 @@ export default function App() {
             name="DadosConsumo" 
             component={DadosConsumo} 
             options={{ title:'Consumo no mês'}} 
+          />
+
+          <Stack.Screen 
+            name="EditarRefeicao" 
+            component={EditarCardapio} 
+            options={{ title:'Edição de Refeições'}} 
+          />
+
+          <Stack.Screen 
+            name="CriarRefeicao" 
+            component={CriarCardapio} 
+            options={{ title:'Criação de Refeições'}} 
           />
         </Stack.Navigator>
 
