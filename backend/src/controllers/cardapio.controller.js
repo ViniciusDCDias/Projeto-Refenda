@@ -42,7 +42,13 @@ export async function excludeRefeicao(req, res) {
         if (!data) {
             return res.status(400).json({ message: "A data não foi enviada, tente novamente." })
         }
-        const dataFormatada = new Date(`${data}T00:00:00.000Z`)
+        const dataFormatada = new Date(
+            Date.UTC(
+                diaHoje.getFullYear(),
+                diaHoje.getMonth(),
+                diaHoje.getDate()
+            )
+        );
         await prisma.cardapios.delete({
             where: {
                 data_ref: dataFormatada
@@ -69,7 +75,13 @@ export async function updateRefeicao(req,res){
         if(!data || !descricao){
             return res.status(400).json({message:"Informações obridatorias não foram enviadas, tente novamente."})
         }
-        const dataFormatada = new Date(`${data}T00:00:00.000Z`)
+        const dataFormatada = new Date(
+            Date.UTC(
+                diaHoje.getFullYear(),
+                diaHoje.getMonth(),
+                diaHoje.getDate()
+            )
+        );
         await prisma.cardapios.update({
             where: {
                 data_ref:dataFormatada
@@ -99,7 +111,7 @@ export async function CardapioSemana(req,res){
 
         if( diaHoje === 0){
             diferenca = 1
-        }else if(diaHoje === 1){
+        }else if(diaHoje === 6){
             diferenca = 2
         }else{
             diferenca = 1 - diaHoje
