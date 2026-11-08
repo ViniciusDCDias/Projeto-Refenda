@@ -21,7 +21,7 @@ export default function CriarCardapio({ navigation, route }) {
         }
         try {
             const response = await fetch(
-                'http://192.168.0.246:3000/cardapio/',
+                'http://10.33.105.192:3000/cardapio/',
                 {
                     method: 'POST',
 

@@ -25,7 +25,7 @@ export default function GerirRefeicoes({ navigation }) {
     async function getRefeicoes() {
         try {
             const response = await fetch(
-                'http://192.168.0.246:3000/cardapio/semana',
+                'http://10.33.105.192:3000/cardapio/semana',
                 {
                     method: 'GET',
                     headers: {
@@ -72,7 +72,7 @@ export default function GerirRefeicoes({ navigation }) {
             // Corrige o fuso horário do Brasil (UTC-3)
             data.setHours(data.getHours() + 3);
 
-            return data.getDay() === index;
+            return data.getDay() === index - 1;
         });
 
         return {

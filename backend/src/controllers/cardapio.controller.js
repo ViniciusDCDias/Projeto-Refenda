@@ -99,7 +99,7 @@ export async function CardapioSemana(req,res){
 
         if( diaHoje === 0){
             diferenca = 1
-        }else if(diaHoje === 1){
+        }else if(diaHoje === 6){
             diferenca = 2
         }else{
             diferenca = 1 - diaHoje

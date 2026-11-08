@@ -18,7 +18,7 @@ export default function AgenAluno({ navigation }) {
   async function getRef() {
     try {
       const response = await fetch(
-        "http://192.168.0.246:3000/cardapio/hoje",
+        "http://10.33.105.192:3000/cardapio/hoje",
         {
           method: "GET",
           headers: {
