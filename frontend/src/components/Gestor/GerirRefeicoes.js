@@ -118,8 +118,13 @@ export default function GerirRefeicoes({ navigation }) {
                                         hoje.getDate() + diferenca
                                     );
 
-                                    const dataFormatada =
-                                        data.toISOString();
+                                    const dataFormatada = new Date(
+                                        Date.UTC(
+                                            diaHoje.getFullYear(),
+                                            diaHoje.getMonth(),
+                                            diaHoje.getDate()
+                                        )
+                                    );
 
                                     navigation.navigate(
                                         'CriarRefeicao',
