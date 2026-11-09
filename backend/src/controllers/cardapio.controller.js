@@ -73,8 +73,9 @@ export async function updateRefeicao(req,res){
         const {data} = req.params
         const descricao = req.body.descricao
         if(!data || !descricao){
-            return res.status(400).json({message:"Informações obridatorias não foram enviadas, tente novamente."})
+            return res.status(400).json({message:"Informações obrigatorias não foram enviadas, tente novamente."})
         }
+        const diaHoje = new Date(data)
         const dataFormatada = new Date(
             Date.UTC(
                 diaHoje.getFullYear(),
@@ -90,7 +91,7 @@ export async function updateRefeicao(req,res){
                 descricao_ref:descricao
             }
         })
-        return res.status(200).json({message:"Refeição excluida com sucesso!"})
+        return res.status(200).json({message:"Refeição Atualizada com sucesso!"})
     }catch(error){
         if (error.code === 'P2025') {
             return res.status(404).json({ message: "Nenhuma refeição encontrada para esta data." })
@@ -100,50 +101,56 @@ export async function updateRefeicao(req,res){
     }
 }
 
+function hojeSemHorario(timeZone = "America/Sao_Paulo") {
+  const partes = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(new Date());
 
-export async function CardapioSemana(req,res){
-    try{
-        const dataHoje = new Date()
-        dataHoje.setHours(0,0,0,0)
-        const diaHoje = dataHoje.getDay()
+  const ano = Number(partes.find((p) => p.type === "year").value);
+  const mes = Number(partes.find((p) => p.type === "month").value);
+  const dia = Number(partes.find((p) => p.type === "day").value);
 
-        let diferenca;
-
-        if( diaHoje === 0){
-            diferenca = 1
-        }else if(diaHoje === 6){
-            diferenca = 2
-        }else{
-            diferenca = 1 - diaHoje
-        }
-        //Define Segunda Feira apartir da diferença entre o Hoje e Ela
-        const segunda = new Date(dataHoje)
-        segunda.setDate(dataHoje.getDate() + diferenca)
-        segunda.setHours(0,0,0,0)
-        //Define Sexta Feira apartir da diferença entre Segunda e Ela
-        const sexta = new Date(segunda)
-        sexta.setDate(segunda.getDate() + 4)
-        sexta.setHours(20,59,59,999)
-
-        const gtePesquisa = new Date(segunda)
-        gtePesquisa.setDate(segunda.getDate() - 1)
-        gtePesquisa.setHours(0,0,0,0)
-        const refeicoes = await prisma.cardapios.findMany({
-            where: {
-                data_ref:{
-                    gte:gtePesquisa,
-                    lte:sexta
-                }
-            }
-        })
-        console.log(gtePesquisa)
-        return res.status(200).json({refeicoes})
-        
-    }catch(error){
-        console.log(error)
-        return res.status(500).json({message:"Erro Interno no Servidor"})
-    }
+  return new Date(Date.UTC(ano, mes - 1, dia)); // meia-noite UTC
 }
+
+export async function CardapioSemana(req, res) {
+  try {
+    const hoje = hojeSemHorario();
+    const diaHoje = hoje.getUTCDay();
+
+    let diferenca;
+    if (diaHoje === 0) diferenca = 1;
+    else if (diaHoje === 6) diferenca = 2;
+    else diferenca = 1 - diaHoje;
+
+    const segunda = new Date(hoje);
+    segunda.setUTCDate(hoje.getUTCDate() + diferenca);
+
+    const sexta = new Date(segunda);
+    sexta.setUTCDate(segunda.getUTCDate() + 4);
+
+    const refeicoes = await prisma.cardapios.findMany({
+        where:{
+            data_ref:{
+                gte:segunda,
+                lte: sexta
+            }
+        }
+    })
+    console.log(segunda)
+    console.log(sexta)
+    console.log(refeicoes)
+    return res.status(200).json({ refeicoes });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Erro Interno no Servidor" });
+  }
+}
+
+
 export async function cardapioDia(req, res) {
     try {
         const diaHoje = new Date();
