@@ -14,8 +14,7 @@ export default function EditarCardapio({ navigation, route }) {
 
     const { token } = useContext(AuthContext);
 
-    const { refeicao } = route.params;
-
+    const { refeicao, dataH, dia} = route.params;
     const [cardapio, setCardapio] = useState(
         refeicao?.descricao_ref || ''
     );
@@ -25,7 +24,7 @@ export default function EditarCardapio({ navigation, route }) {
         try {
 
             const response = await fetch(
-                `http://10.33.105.192:3000/cardapio/${refeicao.data_ref}`,
+                `http://192.168.0.242:3000/cardapio/${dataH}`,
                 {
                     method: 'PUT',
 
@@ -35,7 +34,7 @@ export default function EditarCardapio({ navigation, route }) {
                     },
 
                     body: JSON.stringify({
-                        descricao_ref: cardapio
+                        descricao: cardapio
                     })
                 }
             );
@@ -55,7 +54,7 @@ export default function EditarCardapio({ navigation, route }) {
                 'Cardápio alterado com sucesso!'
             );
 
-            navigation.goBack();
+            navigation.navigate("EditarRefeicoes");
 
         } catch (error) {
 
@@ -74,7 +73,7 @@ export default function EditarCardapio({ navigation, route }) {
 
             <View style={styles.diaSemana}>
                 <Text style={styles.textDiaSemana}>
-                    {refeicao?.data_ref}
+                    {dia}
                 </Text>
             </View>
 

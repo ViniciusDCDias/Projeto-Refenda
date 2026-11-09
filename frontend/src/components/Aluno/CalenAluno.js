@@ -27,7 +27,7 @@ export default function CalenAluno({ navigation }) {
     try {
 
       const response = await fetch(
-        "http://192.168.0.246:3000/cardapio/semana",
+        "http://192.168.0.242:3000/cardapio/semana",
         {
           method: "GET",
           headers: {

@@ -28,7 +28,7 @@ export default function GerirUsers({ navigation }) {
   }, [fontsLoaded]);
   async function getUsers() {
     try {
-      const response = await fetch("http://10.33.105.192:3000/users", {
+      const response = await fetch("http://192.168.0.242:3000/users", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -55,7 +55,7 @@ export default function GerirUsers({ navigation }) {
   async function deleteUser(email) {
     try {
       const response = await fetch(
-        `10.33.105.192:3000/users/${email}`,
+        `192.168.0.242:3000/users/${email}`,
         {
           method: "DELETE",
           headers: {
@@ -86,11 +86,14 @@ export default function GerirUsers({ navigation }) {
 
   async function redefinePassword(email){
     try{const response = await fetch(
-      `http://10.33.105.192:3000/users/${email}`,
+      `http://192.168.0.242:3000/users/${email}`,
       {method:"PUT",
         headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${token}`,
+        },
+        body:{
+          newSenha:"ETEC@195"
         }
       }
     )

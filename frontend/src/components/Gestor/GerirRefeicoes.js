@@ -25,7 +25,7 @@ export default function GerirRefeicoes({ navigation }) {
     async function getRefeicoes() {
         try {
             const response = await fetch(
-                'http://10.33.105.192:3000/cardapio/semana',
+                'http://192.168.0.242:3000/cardapio/semana',
                 {
                     method: 'GET',
                     headers: {
@@ -72,7 +72,7 @@ export default function GerirRefeicoes({ navigation }) {
             // Corrige o fuso horário do Brasil (UTC-3)
             data.setHours(data.getHours() + 3);
 
-            return data.getDay() === index - 1;
+            return data.getDay() === index + 1;
         });
 
         return {
@@ -100,37 +100,46 @@ export default function GerirRefeicoes({ navigation }) {
                             onPress={() => {
 
                                 if (Item.refeicao) {
+                                    const hoje = new Date();
+                                    const diaAtual = hoje.getDay()
+                                    let diferenca = diaAtual === 0 ? 1 : diaAtual == 6 ? 2 : 1 - diaAtual
+                                    const data = new Date(
+                                        hoje.getFullYear(),
+                                        hoje.getMonth(),
+                                        hoje.getDate() + diferenca + index + 1
+                                    )
 
+                                    const dataFormatada = new Date(Date.UTC(
+                                        data.getFullYear(),
+                                        data.getMonth(),
+                                        data.getDate()
+                                    ))
                                     navigation.navigate(
                                         'EditarRefeicao',
                                         {
-                                            refeicao: Item.refeicao
+                                            dia: `${dataFormatada.getDate()} - ${dataFormatada.getMonth() + 1} - ${dataFormatada.getFullYear()}`,
+                                            refeicao: Item.refeicao,
+                                            dataH: dataFormatada.toISOString()
                                         }
                                     );
 
                                 } else {
                                     const hoje = new Date();
-                                    const diaAtual = hoje.getDay();
-                                    const diferenca =
-                                        index - diaAtual + 1;
-                                    const data = new Date(hoje);
-                                    data.setDate(
-                                        hoje.getDate() + diferenca
-                                    );
+                                    const diaAtual = hoje.getDay()
+                                    let diferenca = diaAtual === 0 ? 1 : diaAtual == 6 ? 2 : 1 - diaAtual
+                                    const data = new Date(
+                                        hoje.getFullYear(),
+                                        hoje.getMonth(),
+                                        hoje.getDate() + diferenca + index
+                                    )
 
-                                    const dataFormatada = new Date(
-                                        Date.UTC(
-                                            diaHoje.getFullYear(),
-                                            diaHoje.getMonth(),
-                                            diaHoje.getDate()
-                                        )
-                                    );
+                                    const dataFormatada = new Date(Date.UTC(data.getFullYear(),data.getMonth(),data.getDate()))
 
                                     navigation.navigate(
                                         'CriarRefeicao',
                                         {
-                                            dia: Item.dia,
-                                            data: dataFormatada
+                                            dia: `${dataFormatada.getDate()} - ${dataFormatada.getMonth() + 1} - ${dataFormatada.getFullYear()}`,
+                                            data: dataFormatada.toISOString()
                                         }
                                     );
                                 }

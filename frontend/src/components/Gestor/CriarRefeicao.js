@@ -21,7 +21,7 @@ export default function CriarCardapio({ navigation, route }) {
         }
         try {
             const response = await fetch(
-                'http://10.33.105.192:3000/cardapio/',
+                'http://192.168.0.242:3000/cardapio/',
                 {
                     method: 'POST',
 
@@ -49,7 +49,7 @@ export default function CriarCardapio({ navigation, route }) {
                 'Sucesso',
                 'Cardápio criado com sucesso!'
             );
-            navigation.goBack();
+            navigation.navigate("EditarRefeicoes");
         } catch (error) {
             console.log(error);
             Alert.alert(
