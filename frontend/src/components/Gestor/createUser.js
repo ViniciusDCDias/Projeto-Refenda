@@ -29,6 +29,9 @@ export default function CreateUser({navigation}){
             if (ra == ''){
                 setRA(null)
             }
+            if (senha == ''){
+                setRA("Etec@195")
+            }
             const response = await fetch("http://192.168.0.242:3000/users", {
                 method:"POST",
                 headers:{
@@ -62,7 +65,7 @@ export default function CreateUser({navigation}){
         }
     }
     const EntradaValida = () => {
-        if (nome == "" || email === "" || senha === "" || tipo == "") {
+        if (nome == "" || email === "" || tipo == "") {
         Alert.alert(
             "Erro",
             "Há campos obrigatorios vazios"

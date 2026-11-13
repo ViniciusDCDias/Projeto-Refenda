@@ -54,8 +54,7 @@ export default function GerirUsers({ navigation }) {
   }, []);
   async function deleteUser(email) {
     try {
-      const response = await fetch(
-        `192.168.0.242:3000/users/${email}`,
+      const response = await fetch(`192.168.0.242:3000/users/${email}`,
         {
           method: "DELETE",
           headers: {
@@ -85,28 +84,29 @@ export default function GerirUsers({ navigation }) {
   }
 
   async function redefinePassword(email){
-    try{const response = await fetch(
-      `http://192.168.0.242:3000/users/${email}`,
-      {method:"PUT",
+    try{
+      const response = await fetch(`http://192.168.0.242:3000/users/${email}`,
+      {
+        method:"PUT",
         headers: {
             "Content-Type": "application/json",
             authorization: `Bearer ${token}`,
         },
-        body:{
+        body:JSON.stringify({
           newSenha:"ETEC@195"
-        }
+        })
       }
-    )
-    if(!response.ok){
-      const data = response.json()
-      return Alert.alert("Erro",data.message)
-    }
+      )
+      if(!response.ok){
+        const data = response.json()
+        return Alert.alert("Erro",data.message)
+      }
 
-    return Alert.alert("Sucesso!","Senha Redefinida com sucesso")
-  }catch(error){
-    console.log(error)
-    Alert.alert("Erro","Não foi possivel conectar com o servidor")
-  }
+      return Alert.alert("Sucesso!","Senha Redefinida com sucesso")
+    }catch(error){
+      console.log(error)
+      Alert.alert("Erro","Não foi possivel conectar com o servidor")
+    }
   }
 
   function handleAddUser() {
@@ -140,7 +140,7 @@ export default function GerirUsers({ navigation }) {
           style: "cancel"
         },
         {
-          text:"Excluir",
+          text:"Redefinir",
           style: "destructive",
           onPress: () => redefinePassword(email)
         }
