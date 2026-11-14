@@ -29,6 +29,7 @@ export default function HomeAluno({ navigation }) {
         <TouchableOpacity style={styles.secondaryButton} onPress={() => navigation.navigate('Historico')}>
           <Text style={styles.secondaryButtonText}>VER HISTÓRICO</Text>
         </TouchableOpacity>
+        <Text onPress={()=>navigation.navigate("RedefinirSenha")}>Redefinir Senha</Text>
       </View>
     </View>
   );

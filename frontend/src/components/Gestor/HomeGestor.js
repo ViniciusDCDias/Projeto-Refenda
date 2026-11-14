@@ -3,8 +3,8 @@ import { Text, View, SafeAreaViewBase, TouchableOpacity, StyleSheet} from 'react
 import { AuthContext } from '../../context/AuthContext';
 
 export default function HomeGestor ({navigation}) {
-   const {usuario} = useContext(AuthContext)
-  const nome = usuario.nome
+    const {usuario} = useContext(AuthContext)
+    const nome = usuario.nome
 
     return (
         <View style={styles.tela}>
@@ -30,7 +30,8 @@ export default function HomeGestor ({navigation}) {
                         <Text  style = {styles.textoBotaoUser}>Gerenciar Usuarios</Text>  
                     </TouchableOpacity>
                     
-                </View>    
+                </View> 
+                <Text style={styles.textoRedefinir} onPress={()=>navigation.navigate("RedefinirSenha")}>Redefinir Senha</Text>   
             </View>
         </View>
     );
@@ -66,5 +67,6 @@ const styles = StyleSheet.create({
     },
 
     textoBotao:{color: '#F2F2F2', fontSize: 20, fontWeight: 'bold', textAlign: 'center'},
-    textoBotaoUser:{color: '#2d2c2c', fontSize: 20, fontWeight: 'bold', textAlign: 'center'}
+    textoBotaoUser:{color: '#2d2c2c', fontSize: 20, fontWeight: 'bold', textAlign: 'center'},
+    textoRedefinir: {color:'#999',paddingTop:50}
 });

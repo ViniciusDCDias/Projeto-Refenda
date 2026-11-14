@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import HomeScreen from './src/components/HomeScreen';
+import RedefinirSenha from './src/components/redefinirSenha';
 
 import LoginAluno from './src/components/Aluno/LoginAluno';
 import HomeAluno from './src/components/Aluno/HomeAluno';
@@ -113,7 +114,7 @@ export default function App() {
           />
 
           <Stack.Screen 
-            name="HomeFunc" 
+            name="HomeFuncionario" 
             component={HomeFunc} 
             options={{ headerShown: false }} 
           />
@@ -131,7 +132,7 @@ export default function App() {
           />
 
           <Stack.Screen 
-            name="HomeCozi" 
+            name="HomeGestor" 
             component={HomeCozi} 
             options={{ headerShown: false }} 
           />
@@ -176,6 +177,12 @@ export default function App() {
             name="CriarRefeicao" 
             component={CriarCardapio} 
             options={{ title:'Criação de Refeições'}} 
+          />
+
+          <Stack.Screen
+            name='RedefinirSenha'
+            component={RedefinirSenha}
+            options={{title:"Redefinição de Senha"}}
           />
         </Stack.Navigator>
 

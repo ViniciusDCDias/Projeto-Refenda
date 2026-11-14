@@ -29,6 +29,7 @@ export default function HomeFunc({ navigation }) {
         >
           <Text style={styles.textoBotao}>HISTÓRICO</Text>
         </TouchableOpacity>
+        <Text onPress={()=>navigation.navigate("RedefinirSenha")}>Redefinir Senha</Text>
       </View>
     </View>
   );
