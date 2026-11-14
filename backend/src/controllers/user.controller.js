@@ -99,12 +99,17 @@ export async function updateUser(req,res){
             })
         }
         const hashedSenha = await bcrypt.hash(senha,10)
-        await prisma.usuarios.update({
-            where: {
+        const user = await prisma.usuarios.findFirst({
+            where:{
                 OR:[
                     {email:idenficador},
                     {id_user:idenficador}
                 ]
+            }
+        })
+        await prisma.usuarios.update({
+            where: {
+                email:user.id_user
             },
             data: {
                 senha:hashedSenha
