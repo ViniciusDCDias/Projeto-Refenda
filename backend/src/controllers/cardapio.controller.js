@@ -122,9 +122,9 @@ export async function CardapioSemana(req, res) {
     const diaHoje = hoje.getUTCDay();
 
     let diferenca;
-    if (diaHoje === 0) diferenca = 1;
-    else if (diaHoje === 6) diferenca = 2;
-    else diferenca = 1 - diaHoje;
+    if (diaHoje === 0) diferenca = 1
+    else if (diaHoje === 6) diferenca = 2
+    else diferenca = 1 - diaHoje
 
     const segunda = new Date(hoje);
     segunda.setUTCDate(hoje.getUTCDate() + diferenca);
