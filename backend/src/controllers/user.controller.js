@@ -78,6 +78,7 @@ export async function excludeUser(req,res) {
         });
         return res.status(204).send();
     } catch (error) {
+        console.log(error)
         return res.status(500).json({ message: 'Erro interno no Servidor' });
     }
 }
@@ -107,6 +108,9 @@ export async function updateUser(req,res){
                 ]
             }
         })
+        if(!user){
+            return res.status(404).json({message:"Usuario não encontrado!"})
+        }
         await prisma.usuarios.update({
             where: {
                 email:user.id_user
@@ -120,10 +124,6 @@ export async function updateUser(req,res){
         })
 
     }catch (error) {
-        if (error.code === 'P2025') {
-            return res.status(404).json({ message: "Usuário não encontrado." });
-        }
-
         console.error(error);
         return res.status(500).json({ message: "Erro interno no servidor." });
     }
