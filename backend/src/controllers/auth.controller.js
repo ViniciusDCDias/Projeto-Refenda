@@ -45,6 +45,7 @@ export async function login(req,res) {
                 user:{
                     id:user.id_user,
                     nome:user.nome_user,
+                    email:user.email,
                     tipo:user.tipo_user
                 }
             }

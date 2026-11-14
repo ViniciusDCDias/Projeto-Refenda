@@ -100,20 +100,9 @@ export async function updateUser(req,res){
             })
         }
         const hashedSenha = await bcrypt.hash(senha,10)
-        const user = await prisma.usuarios.findFirst({
-            where:{
-                OR:[
-                    {email:idenficador},
-                    {id_user:idenficador}
-                ]
-            }
-        })
-        if(!user){
-            return res.status(404).json({message:"Usuario não encontrado!"})
-        }
         await prisma.usuarios.update({
             where: {
-                email:user.id_user
+                email:idenficador
             },
             data: {
                 senha:hashedSenha
