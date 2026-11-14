@@ -25,58 +25,39 @@ export default function LoginCozi({navigation}){
   const autenticacao = async () => {
     setCarregando(true)
       try {
-        console.log("ANTES DO FETCH");
-  
         const response = await fetch("http://192.168.0.242:3000/auth/login", {
           method: "POST",
-  
           headers: {
             "Content-Type": "application/json"
           },
-  
           body: JSON.stringify({
             identificador: email,
             senha: senha
           })
-  
-        });
-
-        console.log("DEPOIS DO FETCH");
-  
-        const data = await response.json();
-  
+        })
+        const data = await response.json()
         if (!response.ok) {
-          Alert.alert("Erro", data.message);
-          navigation.replace("Home")
-          return;
+          Alert.alert("Erro", data.message)
+          return
         }
-  
         const tipo = data.user.tipo
         if(tipo === "GESTOR"){
-
           login(data.token,data.user)
           navigation.replace("HomeCozi")
-
         }else{
           Alert.alert("Erro","Tente novamente, você pode estar tentando logar com a o tipo errado...")
           navigation.replace("Home")
         }
-  
       } catch (error) {
-  
-        console.log(error);
-  
+        console.log(error)
         Alert.alert(
           "Erro",
           "Não foi possível conectar ao servidor."
         );
-  
       }finally{
-        setCarregando(true)
+        setCarregando(false)
       }
-  
     }
-  
     const EntradaValida = () => {
       if (email === "" || senha === "") {
         Alert.alert(
@@ -86,7 +67,6 @@ export default function LoginCozi({navigation}){
         return;
       }
       autenticacao();
-  
     }
   return(
     <View style={styles.container}>
