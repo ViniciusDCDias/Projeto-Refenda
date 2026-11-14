@@ -4,6 +4,7 @@ import { useFonts, ZenDots_400Regular } from '@expo-google-fonts/zen-dots';
 import { Inter_400Regular } from '@expo-google-fonts/inter';
 import * as SplashScreen from 'expo-splash-screen';
 import { AuthContext } from '../../context/AuthContext';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function LoginCozi({navigation}){
 
@@ -21,6 +22,7 @@ export default function LoginCozi({navigation}){
   }, [fontsLoaded]);
   const [email,setemail] = useState('')
   const [senha,setSenha] = useState('')
+  const [mostrarSenha, setMostrarSenha] = useState(false);
   const [carregando,setCarregando] = useState(false)
   const autenticacao = async () => {
     setCarregando(true)
@@ -43,7 +45,7 @@ export default function LoginCozi({navigation}){
         const tipo = data.user.tipo
         if(tipo === "GESTOR"){
           login(data.token,data.user)
-          navigation.replace("HomeCozi")
+          navigation.replace("HomeGestor")
         }else{
           Alert.alert("Erro","Tente novamente, você pode estar tentando logar com a o tipo errado...")
           navigation.replace("Home")
@@ -75,19 +77,29 @@ export default function LoginCozi({navigation}){
       </View>  
       <Text>Email:</Text>
       <TextInput 
-      style={styles.input}
-      placeholder="Digite seu email"
-      value={email}
-      onChangeText={setemail}
+        style={styles.input}
+        placeholder="Digite seu email"
+        value={email}
+        onChangeText={setemail}
       />
       <Text>Senha:</Text>
-      <TextInput 
-      style={styles.input}
-      placeholder="Digite sua senha"
-      value={senha}
-      onChangeText={setSenha}
-      secureTextEntry
-      />
+      <View style={styles.senhaRow}>
+        <TextInput 
+          style={[styles.input, styles.senhaInput]}
+          placeholder="Digite sua senha"
+          value={senha}
+          onChangeText={setSenha}
+          secureTextEntry={!mostrarSenha}
+          autoCapitalize='none'
+        />
+        <TouchableOpacity style={styles.olho} onPress={() => setMostrarSenha((v) => !v)}>
+            <MaterialIcons
+              name={mostrarSenha ? 'visibility-off' : 'visibility'}
+              size={24}
+              color="#667"
+            />
+        </TouchableOpacity>
+      </View>
       <View style={styles.containerS}>
         <TouchableOpacity
           disabled={carregando}
@@ -129,7 +141,19 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius:50,
+    borderRadius: 50,
+    backgroundColor: '#fff',
+  },
+  senhaRow: {
+    justifyContent: 'center',
+  },
+  senhaInput: {
+    paddingRight: 45,
+  },
+  olho: {
+    position: 'absolute',
+    right: 14,
+    top: 8,
   },
   button:{
     width:53,
