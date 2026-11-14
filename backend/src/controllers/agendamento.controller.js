@@ -1,4 +1,4 @@
-import prisma from 'prisma.js'
+import prisma from './../lib/prisma.js'
 export async function CreateAgendamento(req,res){
     try{
         const tiposPerm = ["ALUNO","GESTOR"]
@@ -49,9 +49,14 @@ export async function CountAgendamentos(req,res){
                 data.getDate()
             )
         )
-        const quantia = await prisma.agendamentos.count({
+        const refeicao = await prisma.cardapio.findFirst({
             where:{
                 data_ref:dataFormatada
+            }
+        })
+        const quantia = await prisma.agendamentos.count({
+            where:{
+                id_ref:refeicao.id_ref
             }
         })
         return res.status(200).json({
