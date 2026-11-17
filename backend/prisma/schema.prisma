@@ -15,7 +15,7 @@ model agendamentos {
   usuarios       usuarios  @relation(fields: [id_user], references: [id_user], onUpdate: Restrict, map: "agendamentos_ibfk_1")
   cardapios      cardapios @relation(fields: [id_ref], references: [id_ref], onUpdate: Restrict, map: "agendamentos_ibfk_2")
 
-  @@id([id_user, id_ref])
+  @@id(name:'likeId',[id_user, id_ref])
   @@index([id_ref], map: "id_ref")
 }
 
