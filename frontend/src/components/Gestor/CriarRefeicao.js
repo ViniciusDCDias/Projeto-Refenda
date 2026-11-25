@@ -49,7 +49,7 @@ export default function CriarCardapio({ navigation, route }) {
                 'Sucesso',
                 'Cardápio criado com sucesso!'
             );
-            navigation.navigate("EditarRefeicoes");
+            navigation.popTo("HomeGestor");
         } catch (error) {
             console.log(error);
             Alert.alert(

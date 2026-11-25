@@ -23,6 +23,13 @@ export default function CalenAluno({ navigation }) {
     'SEXTA-FEIRA'
   ];
 
+  // Converte data_ref (UTC) para a data correta no Brasil (UTC-3)
+  function converterData(dataRef) {
+    const data = new Date(dataRef);
+    data.setHours(data.getHours() + 3);
+    return data;
+  }
+
   async function getRef() {
     try {
 
@@ -40,17 +47,13 @@ export default function CalenAluno({ navigation }) {
       const data = await response.json();
 
       if (!response.ok) {
-        Alert.alert("Erro", data.message);
+        Alert.alert("Erro", data.message || "Erro ao buscar cardápios.");
         return;
       }
 
       // Se a API retornar undefined ou null,
       // usamos um array vazio.
-      if (Array.isArray(data)) {
-        setRefeicoes(data);
-      } else {
-        setRefeicoes([]);
-      }
+      setRefeicoes(data.refeicoes || []);
 
     } catch (error) {
 
@@ -71,7 +74,11 @@ export default function CalenAluno({ navigation }) {
 
     const refeicao = refeicoes.find(Item => {
 
-      const data = new Date(Item.data_ref);
+      if (!Item || !Item.data_ref) {
+        return false;
+      }
+
+      const data = converterData(Item.data_ref);
 
       return data.getDay() === index + 1;
 
@@ -103,7 +110,7 @@ export default function CalenAluno({ navigation }) {
                   {item.dia}
 
                   {item.refeicao &&
-                    `: ${new Date(
+                    `: ${converterData(
                       item.refeicao.data_ref
                     ).toLocaleDateString('pt-BR')}`
                   }
