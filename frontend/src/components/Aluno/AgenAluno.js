@@ -4,61 +4,124 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  SafeAreaView,
   Alert
 } from 'react-native';
 
 import { AuthContext } from '../../context/AuthContext';
+
+const API_URL = 'http://192.168.0.242:3000';
 
 export default function AgenAluno({ navigation }) {
 
   const { usuario, token } = useContext(AuthContext);
 
   const [ref, setRef] = useState(null);
+  const [carregando, setCarregando] = useState(true);
+  const [agendando, setAgendando] = useState(false);
 
+  // BUSCAR REFEIÇÃO DO DIA
   async function getRef() {
     try {
-      const response = await fetch(
-        "http://192.168.0.242:3000/cardapio/hoje",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${API_URL}/cardapio/hoje`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+      });
 
       const data = await response.json();
 
       if (!response.ok) {
-        Alert.alert("Erro", data.message);
+        Alert.alert('Aviso', data.message || 'Erro ao buscar cardápio.');
         return;
       }
 
       setRef(data);
 
     } catch (error) {
-      console.log(error);
+      console.log('Erro ao buscar refeição:', error);
+      Alert.alert('Erro', 'Não foi possível conectar com o servidor.');
+    } finally {
+      setCarregando(false);
+    }
+  }
+
+  // AGENDAR REFEIÇÃO
+  async function agendarRefeicao() {
+    if (!ref?.id_ref) {
+      Alert.alert('Aviso', 'Nenhuma refeição disponível para agendamento.');
+      return;
+    }
+
+    try {
+      setAgendando(true);
+
+      const response = await fetch(`${API_URL}/agendamentos`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          id_ref: ref.id_ref
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        Alert.alert(
+          'Erro ao agendar',
+          data.message || 'Não foi possível realizar o agendamento.'
+        );
+        return;
+      }
 
       Alert.alert(
-        "Erro",
-        "Não foi possível conectar com o servidor."
+        'Sucesso!',
+        data.message || 'Refeição agendada com sucesso!',
+        [
+          {
+            text: 'OK',
+            onPress: () => navigation.goBack()
+          }
+        ]
       );
+
+    } catch (error) {
+      console.log('Erro ao agendar:', error);
+
+      Alert.alert(
+        'Erro',
+        'Não foi possível conectar com o servidor.'
+      );
+
+    } finally {
+      setAgendando(false);
     }
   }
 
   useEffect(() => {
-    getRef();
-  }, []);
+    if (token) {
+      getRef();
+    } else {
+      setCarregando(false);
+      Alert.alert('Aviso', 'Faça login novamente.');
+    }
+  }, [token]);
 
   return (
-    <View style={styles.screen}>
+    <SafeAreaView style={styles.screen}>
 
       <View style={styles.dayHeader}>
         <Text style={styles.dayHeaderText}>
           {ref?.data_ref
-            ? new Date(ref.data_ref).toLocaleDateString('pt-BR')
-            : 'Carregando...'}
+            ? new Date(ref.data_ref).toLocaleDateString('pt-BR', {
+                timeZone: 'UTC'
+              })
+            : 'CARDÁPIO DE HOJE'}
         </Text>
       </View>
 
@@ -68,7 +131,11 @@ export default function AgenAluno({ navigation }) {
           ALMOÇO DE HOJE
         </Text>
 
-        {ref ? (
+        {carregando ? (
+          <Text style={styles.itemText}>
+            Carregando refeição...
+          </Text>
+        ) : ref ? (
           <View style={styles.itemRow}>
 
             <Text style={styles.itemText}>
@@ -82,18 +149,22 @@ export default function AgenAluno({ navigation }) {
           </View>
         ) : (
           <Text style={styles.itemText}>
-            Carregando refeição...
+            Nenhuma refeição disponível hoje.
           </Text>
         )}
 
       </View>
 
       <TouchableOpacity
-        style={styles.confirmButton}
-        onPress={() => navigation.goBack()}
+        style={[
+          styles.confirmButton,
+          (!ref || carregando || agendando) && styles.disabledButton
+        ]}
+        onPress={agendarRefeicao}
+        disabled={!ref || carregando || agendando}
       >
         <Text style={styles.confirmButtonText}>
-          + AGENDAR REFEIÇÃO
+          {agendando ? 'AGENDANDO...' : '+ AGENDAR REFEIÇÃO'}
         </Text>
       </TouchableOpacity>
 
@@ -106,7 +177,7 @@ export default function AgenAluno({ navigation }) {
         </Text>
       </TouchableOpacity>
 
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -163,6 +234,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     marginBottom: 16
+  },
+
+  disabledButton: {
+    opacity: 0.5
   },
 
   confirmButtonText: {
